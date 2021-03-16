@@ -333,7 +333,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine
             ArgumentProcessorResult result;
             try
             {
-                result = processor.Executor.Value.Execute(this.ObjectWriter);
+                result = processor.Executor.Value.Execute(this.ObjectWriter, this.testPlatformEventSource);
             }
             catch (Exception ex)
             {
