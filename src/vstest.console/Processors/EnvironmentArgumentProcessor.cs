@@ -139,7 +139,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
             }
 
             // Nothing to do here, the work was done in initialization.
-            public ArgumentProcessorResult Execute() => ArgumentProcessorResult.Success;
+            public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null) => ArgumentProcessorResult.Success;
         }
     }
 }

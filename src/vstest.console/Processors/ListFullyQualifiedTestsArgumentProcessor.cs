@@ -197,7 +197,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         /// Lists out the available discoverers.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1506:AvoidExcessiveClassCoupling")]
-        public ArgumentProcessorResult Execute()
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
         {
             Contract.Assert(this.output != null);
             Contract.Assert(this.commandLineOptions != null);
@@ -246,6 +246,8 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
                 this.options = cmdOptions;
             }
 
+            public IObjectWriter ObjectWriter { get; set; }
+
             public void LogWarning(string message)
             {
                 ConsoleLogger.RaiseTestRunWarning(message);
@@ -278,6 +280,14 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
                                                            .Select(fqdn => filteredTests.First(test => test.FullyQualifiedName == fqdn))
                                                            .ToList();
                 this.discoveredTests.AddRange(filteredTests.Select(test => test.FullyQualifiedName));
+
+                if (this.ObjectWriter != null)
+                {
+                    foreach (var test in discoveredTests)
+                    {
+                        this.ObjectWriter.SendObject(test);
+                    }
+                }
             }
         }
 

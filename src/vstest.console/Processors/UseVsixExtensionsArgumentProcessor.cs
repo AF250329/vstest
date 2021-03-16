@@ -130,7 +130,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         }
 
         /// <inheritdoc />
-        public ArgumentProcessorResult Execute()
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
         {
             return ArgumentProcessorResult.Success;
         }

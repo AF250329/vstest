@@ -46,7 +46,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine
             return new Executor(ConsoleOutput.Instance).Execute(args);
         }
 
-        public static int RunExecutor(string[] args, ITestPlatformEventSource testPlatformEventSource)
+        public static int RunExecutor(string[] args, ITestPlatformEventSource testPlatformEventSource, IObjectWriter objectWriter)
         {
             var debugEnabled = Environment.GetEnvironmentVariable("VSTEST_RUNNER_DEBUG");
             if (!string.IsNullOrEmpty(debugEnabled) && debugEnabled.Equals("1", StringComparison.Ordinal))
@@ -69,6 +69,8 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine
             SetCultureSpecifiedByUser();
 
             var executor = new Executor(ConsoleOutput.Instance, testPlatformEventSource);
+
+            executor.ObjectWriter = objectWriter;
 
             return executor.Execute(args);
         }

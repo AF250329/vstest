@@ -74,6 +74,8 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine
         /// </summary>
         private IOutput Output { get; set; }
 
+        public IObjectWriter ObjectWriter { get; set; }
+
         #endregion
 
         #region Methods
@@ -331,7 +333,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine
             ArgumentProcessorResult result;
             try
             {
-                result = processor.Executor.Value.Execute();
+                result = processor.Executor.Value.Execute(this.ObjectWriter);
             }
             catch (Exception ex)
             {

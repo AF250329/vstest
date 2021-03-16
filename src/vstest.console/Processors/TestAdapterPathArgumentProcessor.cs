@@ -230,7 +230,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         /// Executes the argument processor.
         /// </summary>
         /// <returns> The <see cref="ArgumentProcessorResult"/>. </returns>
-        public ArgumentProcessorResult Execute()
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
         {
             // Nothing to do since we updated the parameter during initialize parameter
             return ArgumentProcessorResult.Success;

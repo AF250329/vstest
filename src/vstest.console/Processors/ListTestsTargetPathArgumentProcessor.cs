@@ -6,6 +6,9 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
     using System;
     using System.Diagnostics.Contracts;
     using System.Globalization;
+
+    using Microsoft.VisualStudio.TestPlatform.Utilities;
+
     using CommandLineResources = Microsoft.VisualStudio.TestPlatform.CommandLine.Resources.Resources;
 
     /// <summary>
@@ -120,7 +123,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         /// The ListTestsTargetPath is already set, return success.
         /// </summary>
         /// <returns> The <see cref="ArgumentProcessorResult"/> Success </returns>
-        public ArgumentProcessorResult Execute()
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
         {
             return ArgumentProcessorResult.Success;
         }

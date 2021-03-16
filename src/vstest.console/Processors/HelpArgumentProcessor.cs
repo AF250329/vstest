@@ -122,7 +122,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         {
         }
 
-        public ArgumentProcessorResult Execute()
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
         {
             // Output the stock output text
             OutputSection(CommandLineResources.HelpUsageText);

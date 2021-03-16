@@ -172,7 +172,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         /// The output path is already set, return success.
         /// </summary>
         /// <returns> The <see cref="ArgumentProcessorResult"/> Success </returns>
-        public ArgumentProcessorResult Execute()
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
         {
             return ArgumentProcessorResult.Success;
         }

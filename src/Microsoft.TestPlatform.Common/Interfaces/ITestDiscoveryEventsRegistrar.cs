@@ -4,6 +4,7 @@
 namespace Microsoft.VisualStudio.TestPlatform.Common.Interfaces
 {
     using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
+    using Microsoft.VisualStudio.TestPlatform.Utilities;
 
     public interface ITestDiscoveryEventsRegistrar : IBaseTestEventsRegistrar
     {
@@ -19,5 +20,7 @@ namespace Microsoft.VisualStudio.TestPlatform.Common.Interfaces
         /// </summary>
         /// <param name="discoveryRequest">The discovery request from which events should be unregistered.</param>
         void UnregisterDiscoveryEvents(IDiscoveryRequest discoveryRequest);
+
+        IObjectWriter ObjectWriter { get; set; }
     }
 }

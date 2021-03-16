@@ -6,6 +6,7 @@ namespace Microsoft.VisualStudio.TestPlatform.Client.DesignMode
     using Microsoft.VisualStudio.TestPlatform.Common.Interfaces;
     using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
     using Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging;
+    using Microsoft.VisualStudio.TestPlatform.Utilities;
 
     /// <summary>
     /// Registers the discovery and test run events for design mode flow
@@ -13,6 +14,8 @@ namespace Microsoft.VisualStudio.TestPlatform.Client.DesignMode
     public class DesignModeTestEventsRegistrar : ITestDiscoveryEventsRegistrar, ITestRunEventsRegistrar
     {
         private IDesignModeClient designModeClient;
+
+        public IObjectWriter ObjectWriter { get; set; }
 
         public DesignModeTestEventsRegistrar(IDesignModeClient designModeClient)
         {

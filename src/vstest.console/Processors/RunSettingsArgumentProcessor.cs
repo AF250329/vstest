@@ -205,7 +205,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
             return runSettingsDocument;
         }
 
-        public ArgumentProcessorResult Execute()
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
         {
             // Nothing to do here, the work was done in initialization.
             return ArgumentProcessorResult.Success;

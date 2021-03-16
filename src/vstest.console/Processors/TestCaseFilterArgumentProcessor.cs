@@ -7,6 +7,8 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
     using System.Diagnostics.Contracts;
     using System.Globalization;
     using Microsoft.VisualStudio.TestPlatform.CommandLine;
+    using Microsoft.VisualStudio.TestPlatform.Utilities;
+
     using CommandLineResources = Microsoft.VisualStudio.TestPlatform.CommandLine.Resources.Resources;
 
     /// <summary>
@@ -140,7 +142,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         /// The TestCaseFilter is already set, return success.
         /// </summary>
         /// <returns> The <see cref="ArgumentProcessorResult"/> Success </returns>
-        public ArgumentProcessorResult Execute()
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
         {
             return ArgumentProcessorResult.Success;
         }

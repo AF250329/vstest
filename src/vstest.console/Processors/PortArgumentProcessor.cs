@@ -12,6 +12,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
     using Microsoft.VisualStudio.TestPlatform.ObjectModel;
     using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions;
     using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions.Interfaces;
+    using Microsoft.VisualStudio.TestPlatform.Utilities;
 
     using TestPlatformHelpers;
 
@@ -181,7 +182,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         /// Initialize the design mode client.
         /// </summary>
         /// <returns> The <see cref="ArgumentProcessorResult.Success"/> if initialization is successful. </returns>
-        public ArgumentProcessorResult Execute()
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
         {
             try
             {

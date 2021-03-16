@@ -199,7 +199,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         /// Execute specific tests that match any of the given strings.
         /// </summary>
         /// <returns></returns>
-        public ArgumentProcessorResult Execute()
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
         {
             Contract.Assert(this.output != null);
             Contract.Assert(this.commandLineOptions != null);
@@ -329,6 +329,8 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
             {
                 this.discoveredTestsHandler = discoveredTestsHandler;
             }
+
+            public IObjectWriter ObjectWriter { get; set; }
 
             public void LogWarning(string message)
             {

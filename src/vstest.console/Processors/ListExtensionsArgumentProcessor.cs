@@ -100,7 +100,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         {
         }
 
-        public ArgumentProcessorResult Execute()
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
         {
             ConsoleOutput.Instance.WriteLine(CommandLineResources.AvailableDiscoverersHeaderMessage, OutputLevel.Information);
             var testPlatform = TestPlatformFactory.GetTestPlatform();
@@ -137,7 +137,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         {
         }
 
-        public ArgumentProcessorResult Execute()
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
         {
             ConsoleOutput.Instance.WriteLine(CommandLineResources.AvailableExecutorsHeaderMessage, OutputLevel.Information);
             var testPlatform = TestPlatformFactory.GetTestPlatform();
@@ -173,7 +173,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         {
         }
 
-        public ArgumentProcessorResult Execute()
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
         {
             ConsoleOutput.Instance.WriteLine(CommandLineResources.AvailableLoggersHeaderMessage, OutputLevel.Information);
             var testPlatform = TestPlatformFactory.GetTestPlatform();
@@ -217,7 +217,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         {
         }
 
-        public ArgumentProcessorResult Execute()
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
         {
             ConsoleOutput.Instance.WriteLine(CommandLineResources.AvailableSettingsProvidersHeaderMessage, OutputLevel.Information);
             var testPlatform = TestPlatformFactory.GetTestPlatform();
