@@ -32,6 +32,7 @@
     <ProjectReference Include="..\Microsoft.TestPlatform.Client\Microsoft.TestPlatform.Client.csproj" />
     <ProjectReference Include="..\Microsoft.TestPlatform.CommunicationUtilities\Microsoft.TestPlatform.CommunicationUtilities.csproj" />
     <ProjectReference Include="..\Microsoft.TestPlatform.PlatformAbstractions\Microsoft.TestPlatform.PlatformAbstractions.csproj" />
+    <ProjectReference Include="..\Microsoft.TestPlatform.TestHostProvider\Microsoft.TestPlatform.TestHostProvider.csproj" />
     <ProjectReference Include="..\Microsoft.TestPlatform.Utilities\Microsoft.TestPlatform.Utilities.csproj" />
     <ProjectReference Include="..\Microsoft.TestPlatform.CrossPlatEngine\Microsoft.TestPlatform.CrossPlatEngine.csproj">
       <FromP2P>true</FromP2P>
