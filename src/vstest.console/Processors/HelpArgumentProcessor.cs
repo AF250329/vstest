@@ -7,6 +7,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
     using System.Collections.Generic;
     using System.Globalization;
 
+    using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Tracing.Interfaces;
     using Microsoft.VisualStudio.TestPlatform.Utilities;
     using CommandLineResources = Microsoft.VisualStudio.TestPlatform.CommandLine.Resources.Resources;
 
@@ -122,7 +123,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         {
         }
 
-        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null)
         {
             // Output the stock output text
             OutputSection(CommandLineResources.HelpUsageText);

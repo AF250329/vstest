@@ -47,7 +47,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers
         private const int runRequestTimeout = 5000;
 
         private readonly ITestPlatform testPlatform;
-        private readonly ITestPlatformEventSource testPlatformEventSource;
+        // private readonly ITestPlatformEventSource testPlatformEventSource;
         private readonly Task<IMetricsPublisher> metricsPublisher;
         private readonly object syncObject = new object();
 
@@ -112,7 +112,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers
             this.testPlatform = testPlatform;
             this.commandLineOptions = commandLineOptions;
             this.testRunResultAggregator = testRunResultAggregator;
-            this.testPlatformEventSource = testPlatformEventSource;
+            this.TestPlatformEventSourceInstance = testPlatformEventSource;
             this.inferHelper = inferHelper;
             this.metricsPublisher = metricsPublisher;
             this.processHelper = processHelper;
@@ -135,6 +135,12 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers
 
                 return testRequestManagerInstance;
             }
+        }
+
+        public ITestPlatformEventSource TestPlatformEventSourceInstance
+        {
+            get;
+            set;
         }
 
         #region ITestRequestManager
@@ -223,7 +229,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers
                     discoveryEventsRegistrar?.RegisterDiscoveryEvents(this.currentDiscoveryRequest);
 
                     // Notify start of discovery start.
-                    this.testPlatformEventSource.DiscoveryRequestStart();
+                    this.TestPlatformEventSourceInstance.DiscoveryRequestStart();
 
                     // Start the discovery of tests and wait for completion.
                     this.currentDiscoveryRequest.DiscoverAsync();
@@ -240,7 +246,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers
                     }
 
                     EqtTrace.Info("TestRequestManager.DiscoverTests: Discovery tests completed.");
-                    this.testPlatformEventSource.DiscoveryRequestStop();
+                    this.TestPlatformEventSourceInstance.DiscoveryRequestStop();
 
                     // Posts the discovery complete event.
                     this.metricsPublisher.Result.PublishMetrics(
@@ -366,7 +372,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers
             }
             finally
             {
-                this.testPlatformEventSource.ExecutionRequestStop();
+                this.TestPlatformEventSourceInstance.ExecutionRequestStop();
 
                 // Post the run complete event
                 this.metricsPublisher.Result.PublishMetrics(
@@ -394,7 +400,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers
                 try
                 {
                     EqtTrace.Info("TestRequestManager.ProcessTestRunAttachments: Synchronization context taken.");
-                    this.testPlatformEventSource.TestRunAttachmentsProcessingRequestStart();
+                    this.TestPlatformEventSourceInstance.TestRunAttachmentsProcessingRequestStart();
 
                     this.currentAttachmentsProcessingCancellationTokenSource = new CancellationTokenSource();
 
@@ -414,7 +420,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers
                     }
 
                     EqtTrace.Info("TestRequestManager.ProcessTestRunAttachments: Test run attachments processing completed.");
-                    this.testPlatformEventSource.TestRunAttachmentsProcessingRequestStop();
+                    this.TestPlatformEventSourceInstance.TestRunAttachmentsProcessingRequestStop();
 
                     // Post the attachments processing complete event.
                     this.metricsPublisher.Result.PublishMetrics(
@@ -464,7 +470,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers
                 try
                 {
                     EqtTrace.Info("TestRequestManager.StartTestRunner: Synchronization context taken.");
-                    this.testPlatformEventSource.StartTestSessionStart();
+                    this.TestPlatformEventSourceInstance.StartTestSessionStart();
 
                     var criteria = new StartTestSessionCriteria()
                     {
@@ -478,7 +484,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers
                 finally
                 {
                     EqtTrace.Info("TestRequestManager.StartTestSession: Starting test session completed.");
-                    this.testPlatformEventSource.StartTestSessionStop();
+                    this.TestPlatformEventSourceInstance.StartTestSessionStop();
 
                     // Post the attachments processing complete event.
                     this.metricsPublisher.Result.PublishMetrics(
@@ -890,7 +896,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers
                     this.testRunResultAggregator.RegisterTestRunEvents(this.currentTestRunRequest);
                     testRunEventsRegistrar?.RegisterTestRunEvents(this.currentTestRunRequest);
 
-                    this.testPlatformEventSource.ExecutionRequestStart();
+                    this.TestPlatformEventSourceInstance.ExecutionRequestStart();
 
                     this.currentTestRunRequest.ExecuteAsync();
 

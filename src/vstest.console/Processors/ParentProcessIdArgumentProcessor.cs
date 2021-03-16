@@ -6,6 +6,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
     using System;
     using System.Diagnostics.Contracts;
 
+    using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Tracing.Interfaces;
     using Microsoft.VisualStudio.TestPlatform.Utilities;
 
     using CommandLineResources = Microsoft.VisualStudio.TestPlatform.CommandLine.Resources.Resources;
@@ -131,7 +132,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         /// ParentProcessId is already set, return success.
         /// </summary>
         /// <returns> The <see cref="ArgumentProcessorResult"/> Success </returns>
-        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null)
         {
             // Nothing to do here, the work was done in initialization.
             return ArgumentProcessorResult.Success;

@@ -20,6 +20,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
     using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
     using Microsoft.VisualStudio.TestPlatform.Utilities;
     using CommandLineResources = Resources.Resources;
+    using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Tracing.Interfaces;
 
     internal class RunSpecificTestsArgumentProcessor : IArgumentProcessor
     {
@@ -199,7 +200,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         /// Execute specific tests that match any of the given strings.
         /// </summary>
         /// <returns></returns>
-        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null)
         {
             Contract.Assert(this.output != null);
             Contract.Assert(this.commandLineOptions != null);

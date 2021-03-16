@@ -9,6 +9,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
     using Microsoft.VisualStudio.TestPlatform.Client;
     using Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework;
     using Microsoft.VisualStudio.TestPlatform.Common.SettingsProvider;
+    using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Tracing.Interfaces;
     using Microsoft.VisualStudio.TestPlatform.ObjectModel.Logging;
     using Microsoft.VisualStudio.TestPlatform.Utilities;
     using CommandLineResources = Microsoft.VisualStudio.TestPlatform.CommandLine.Resources.Resources;
@@ -100,7 +101,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         {
         }
 
-        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null)
         {
             ConsoleOutput.Instance.WriteLine(CommandLineResources.AvailableDiscoverersHeaderMessage, OutputLevel.Information);
             var testPlatform = TestPlatformFactory.GetTestPlatform();
@@ -137,7 +138,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         {
         }
 
-        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null)
         {
             ConsoleOutput.Instance.WriteLine(CommandLineResources.AvailableExecutorsHeaderMessage, OutputLevel.Information);
             var testPlatform = TestPlatformFactory.GetTestPlatform();
@@ -173,7 +174,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         {
         }
 
-        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null)
         {
             ConsoleOutput.Instance.WriteLine(CommandLineResources.AvailableLoggersHeaderMessage, OutputLevel.Information);
             var testPlatform = TestPlatformFactory.GetTestPlatform();
@@ -217,7 +218,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         {
         }
 
-        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null)
         {
             ConsoleOutput.Instance.WriteLine(CommandLineResources.AvailableSettingsProvidersHeaderMessage, OutputLevel.Information);
             var testPlatform = TestPlatformFactory.GetTestPlatform();

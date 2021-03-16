@@ -6,6 +6,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
     using System;
     using System.Diagnostics.Contracts;
     using Microsoft.VisualStudio.TestPlatform.CommandLine;
+    using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Tracing.Interfaces;
     using Microsoft.VisualStudio.TestPlatform.Utilities;
 
     /// <summary>
@@ -122,7 +123,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         /// <returns>
         /// The <see cref="ArgumentProcessorResult"/>.
         /// </returns>
-        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null)
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null)
         {
             // Nothing to do. Our work was done during initialize.
             return ArgumentProcessorResult.Success;
