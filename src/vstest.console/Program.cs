@@ -46,7 +46,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine
             return new Executor(ConsoleOutput.Instance).Execute(args);
         }
 
-        public static int RunExecutor(string[] args, ITestPlatformEventSource testPlatformEventSource, IObjectWriter objectWriter)
+        public static int RunExecutor(string[] args, ITestPlatformEventSource testPlatformEventSource, IObjectWriter objectWriter = null)
         {
             var debugEnabled = Environment.GetEnvironmentVariable("VSTEST_RUNNER_DEBUG");
             if (!string.IsNullOrEmpty(debugEnabled) && debugEnabled.Equals("1", StringComparison.Ordinal))
@@ -70,7 +70,10 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine
 
             var executor = new Executor(ConsoleOutput.Instance, testPlatformEventSource);
 
-            executor.ObjectWriter = objectWriter;
+            if (objectWriter != null)
+            {
+                executor.ObjectWriter = objectWriter;
+            }
 
             return executor.Execute(args);
         }

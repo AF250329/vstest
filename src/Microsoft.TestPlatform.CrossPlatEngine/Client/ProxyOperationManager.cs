@@ -170,6 +170,9 @@ namespace Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Client
         {
             this.CancellationTokenSource.Token.ThrowTestPlatformExceptionIfCancellationRequested();
 
+            //System.Diagnostics.Debugger.Launch();
+            //System.Diagnostics.Debugger.Break();
+
             if (this.initialized)
             {
                 return true;
@@ -205,11 +208,23 @@ namespace Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Client
             var envVars = InferRunSettingsHelper.GetEnvironmentVariables(runSettings);
 
             // Get the test process start info.
-            var testHostStartInfo = this.UpdateTestProcessStartInfo(
-                this.TestHostManager.GetTestHostProcessStartInfo(
+            var hostStartInfo = this.TestHostManager.GetTestHostProcessStartInfo(
                     sources,
                     envVars,
-                    connectionInfo));
+                    connectionInfo);
+
+            if (!File.Exists(hostStartInfo.FileName))
+            {
+                // Somehow can not set path to file in Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Hosting.DefaultTestHostManager::GetTestHostProcessStartInfo()
+                // :( :( :( Why ?? :(
+                var fileName = Path.GetFileName(hostStartInfo.FileName);
+                var directory = Path.GetDirectoryName(hostStartInfo.FileName);
+                var frameworkMoniker = fileName.Split('.');
+                fileName = Path.Combine(directory, "TestsHosts", frameworkMoniker[1], "win7-x86", fileName);
+                hostStartInfo.FileName = fileName;
+            }
+
+            var testHostStartInfo = this.UpdateTestProcessStartInfo(hostStartInfo);
             try
             {
                 // Launch the test host.

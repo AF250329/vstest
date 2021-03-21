@@ -217,6 +217,8 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
             // Discover tests from sources and filter on every discovery reported.
             this.DiscoverTestsAndSelectSpecified(this.commandLineOptions.Sources);
 
+            this.testRequestManager.TestPlatformEventSourceInstance = testPlatformEventSource;
+
             // Now that tests are discovered and filtered, we run only those selected tests.
             this.ExecuteSelectedTests();
 
