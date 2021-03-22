@@ -36,6 +36,8 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers
     using Microsoft.VisualStudio.TestPlatform.PlatformAbstractions.Interfaces;
     using Microsoft.VisualStudio.TestPlatform.Utilities;
     using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client.Payloads;
+    using Microsoft.VisualStudio.TestPlatform.Client.Execution;
+    using Microsoft.VisualStudio.TestPlatform.Client.Discovery;
 
     /// <summary>
     /// Defines the test request manger which can fire off discovery and test run requests.
@@ -134,6 +136,18 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers
                 }
 
                 return testRequestManagerInstance;
+            }
+        }
+
+        public ITestLoggerManager VSTestLoggerManager
+        {
+            get
+            {
+                return ((Microsoft.VisualStudio.TestPlatform.Client.TestPlatform)this.testPlatform).VStestLoggerManager;
+            }
+            set
+            {
+                ((Microsoft.VisualStudio.TestPlatform.Client.TestPlatform)this.testPlatform).VStestLoggerManager = value;
             }
         }
 
@@ -895,6 +909,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers
 
                     this.testRunResultAggregator.RegisterTestRunEvents(this.currentTestRunRequest);
                     testRunEventsRegistrar?.RegisterTestRunEvents(this.currentTestRunRequest);
+                    ((Microsoft.VisualStudio.TestPlatform.Client.TestPlatform)this.testPlatform).VStestLoggerManager = this.VSTestLoggerManager;
 
                     this.TestPlatformEventSourceInstance.ExecutionRequestStart();
 
@@ -1164,5 +1179,6 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers
             }
             return sources;
         }
+   
     }
 }

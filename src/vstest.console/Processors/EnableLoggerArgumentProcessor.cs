@@ -12,6 +12,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
     using Microsoft.VisualStudio.TestPlatform.Common;
     using Microsoft.VisualStudio.TestPlatform.Common.Interfaces;
     using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Tracing.Interfaces;
+    using Microsoft.VisualStudio.TestPlatform.ObjectModel.Engine;
     using Microsoft.VisualStudio.TestPlatform.Utilities;
 
     using CommandLineResources = Microsoft.VisualStudio.TestPlatform.CommandLine.Resources.Resources;
@@ -174,7 +175,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         /// <returns>
         /// The <see cref="ArgumentProcessorResult"/>.
         /// </returns>
-        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null)
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null, ITestLoggerManager vsTestLogManager = null)
         {
             // Nothing to do since we enabled the logger in the initialize method.
             return ArgumentProcessorResult.Success;

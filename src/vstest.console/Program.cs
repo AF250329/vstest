@@ -9,6 +9,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine
     using System.Threading;
 
     using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Tracing.Interfaces;
+    using Microsoft.VisualStudio.TestPlatform.ObjectModel.Engine;
     using Microsoft.VisualStudio.TestPlatform.Utilities;
 
     /// <summary>
@@ -46,7 +47,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine
             return new Executor(ConsoleOutput.Instance).Execute(args);
         }
 
-        public static int RunExecutor(string[] args, ITestPlatformEventSource testPlatformEventSource, IObjectWriter objectWriter = null)
+        public static int RunExecutor(string[] args, ITestPlatformEventSource testPlatformEventSource, IObjectWriter objectWriter = null, ITestLoggerManager vsTestLogManager = null)
         {
             var debugEnabled = Environment.GetEnvironmentVariable("VSTEST_RUNNER_DEBUG");
             if (!string.IsNullOrEmpty(debugEnabled) && debugEnabled.Equals("1", StringComparison.Ordinal))
@@ -73,6 +74,11 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine
             if (objectWriter != null)
             {
                 executor.ObjectWriter = objectWriter;
+            }
+
+            if (vsTestLogManager != null)
+            {
+                executor.VStestLogManager = vsTestLogManager;
             }
 
             return executor.Execute(args);

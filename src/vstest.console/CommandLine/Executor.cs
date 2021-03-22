@@ -38,6 +38,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine
     using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Tracing;
     using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Tracing.Interfaces;
     using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+    using Microsoft.VisualStudio.TestPlatform.ObjectModel.Engine;
     using Microsoft.VisualStudio.TestPlatform.Utilities;
     using CommandLineResources = Microsoft.VisualStudio.TestPlatform.CommandLine.Resources.Resources;
 
@@ -75,6 +76,8 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine
         private IOutput Output { get; set; }
 
         public IObjectWriter ObjectWriter { get; set; }
+
+        public ITestLoggerManager VStestLogManager { get; set; }
 
         #endregion
 
@@ -333,7 +336,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine
             ArgumentProcessorResult result;
             try
             {
-                result = processor.Executor.Value.Execute(this.ObjectWriter, this.testPlatformEventSource);
+                result = processor.Executor.Value.Execute(this.ObjectWriter, this.testPlatformEventSource, this.VStestLogManager);
             }
             catch (Exception ex)
             {

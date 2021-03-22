@@ -16,6 +16,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
     using CommandLineResources = Microsoft.VisualStudio.TestPlatform.CommandLine.Resources.Resources;
     using Microsoft.VisualStudio.TestPlatform.Utilities;
     using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Tracing.Interfaces;
+    using Microsoft.VisualStudio.TestPlatform.ObjectModel.Engine;
 
     /// <summary>
     /// The argument processor for runsettings passed as argument through cli
@@ -130,7 +131,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
             }
         }
 
-        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null)
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null, ITestLoggerManager vsTestLogManager = null)
         {
             // Nothing to do here, the work was done in initialization.
             return ArgumentProcessorResult.Success;

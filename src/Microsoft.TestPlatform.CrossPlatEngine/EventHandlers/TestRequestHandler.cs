@@ -323,6 +323,9 @@ namespace Microsoft.VisualStudio.TestPlatform.CommunicationUtilities
 
                 case MessageType.StartDiscovery:
                     {
+                        System.Diagnostics.Debugger.Launch();
+                        System.Diagnostics.Debugger.Break();
+
                         EqtTrace.Info("Discovery started.");
                         this.testHostManagerFactoryReady.Wait();
                         var discoveryEventsHandler = new TestDiscoveryEventHandler(this);

@@ -353,9 +353,10 @@ namespace Microsoft.VisualStudio.TestPlatform.Client.Execution
         /// <summary>
         /// Logger manager.
         /// </summary>
-        internal ITestLoggerManager LoggerManager
+        public ITestLoggerManager LoggerManager
         {
-            get; private set;
+            get; 
+            set;
         }
 
         #endregion

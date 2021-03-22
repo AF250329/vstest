@@ -19,7 +19,7 @@ namespace Microsoft.VisualStudio.TestPlatform.Common.Logging
     /// Exposes events that Test Loggers can register for and allows for them
     /// to be raised through the IRunMessageLogger interface.
     /// </summary>
-    internal class InternalTestLoggerEvents : TestLoggerEvents, IDisposable
+    public class InternalTestLoggerEvents : TestLoggerEvents, IDisposable
     {
         #region Fields
 

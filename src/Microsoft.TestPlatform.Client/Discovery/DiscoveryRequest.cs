@@ -223,7 +223,7 @@ namespace Microsoft.VisualStudio.TestPlatform.Client.Discovery
         /// <summary>
         /// Logger manager.
         /// </summary>
-        internal ITestLoggerManager LoggerManager { get; private set; }
+        public ITestLoggerManager LoggerManager { get; private set; }
 
         #region ITestDiscoveryEventsHandler2 Methods
 

@@ -3,6 +3,7 @@
 
 using Microsoft.VisualStudio.TestPlatform.Client.RequestHelper;
 using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Tracing.Interfaces;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel.Engine;
 using Microsoft.VisualStudio.TestPlatform.Utilities;
 
 namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
@@ -25,6 +26,6 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         /// <returns>
         /// The <see cref="ArgumentProcessorResult"/>.
         /// </returns>
-        ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null);
+        ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null, ITestLoggerManager vsTestLogManager = null);
     }
 }

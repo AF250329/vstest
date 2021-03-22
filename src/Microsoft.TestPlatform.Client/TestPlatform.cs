@@ -18,6 +18,7 @@ namespace Microsoft.VisualStudio.TestPlatform.Client
     using Microsoft.VisualStudio.TestPlatform.Common.Logging;
     using Microsoft.VisualStudio.TestPlatform.Common.Utilities;
     using Microsoft.VisualStudio.TestPlatform.CrossPlatEngine;
+    using Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Client;
     using Microsoft.VisualStudio.TestPlatform.ObjectModel;
     using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
     using Microsoft.VisualStudio.TestPlatform.ObjectModel.Engine;
@@ -31,11 +32,17 @@ namespace Microsoft.VisualStudio.TestPlatform.Client
     /// <summary>
     /// Implementation for TestPlatform.
     /// </summary>
-    internal class TestPlatform : ITestPlatform
+    public class TestPlatform : ITestPlatform
     {
         private readonly TestRuntimeProviderManager testHostProviderManager;
 
         private readonly IFileHelper fileHelper;
+
+        public ITestLoggerManager VStestLoggerManager
+        {
+            get;
+            set;
+        }
 
         static TestPlatform()
         {
@@ -103,6 +110,8 @@ namespace Microsoft.VisualStudio.TestPlatform.Client
             var loggerManager = this.TestEngine.GetLoggerManager(requestData);
             loggerManager.Initialize(discoveryCriteria.RunSettings);
 
+            SubscribeLogger(loggerManager, this.VStestLoggerManager);
+
             var testHostManager = this.testHostProviderManager.GetTestHostManagerByRunConfiguration(discoveryCriteria.RunSettings);
             ThrowExceptionIfTestHostManagerIsNull(testHostManager, discoveryCriteria.RunSettings);
 
@@ -138,6 +147,8 @@ namespace Microsoft.VisualStudio.TestPlatform.Client
             // Initialize loggers.
             var loggerManager = this.TestEngine.GetLoggerManager(requestData);
             loggerManager.Initialize(testRunCriteria.TestRunSettings);
+
+            SubscribeLogger(loggerManager, this.VStestLoggerManager);
 
             var testHostManager = this.testHostProviderManager.GetTestHostManagerByRunConfiguration(testRunCriteria.TestRunSettings);
             ThrowExceptionIfTestHostManagerIsNull(testHostManager, testRunCriteria.TestRunSettings);
@@ -355,6 +366,55 @@ namespace Microsoft.VisualStudio.TestPlatform.Client
 
                 TestPluginCache.Instance.DefaultExtensionPaths = defaultExtensionPaths;
             }
+        }
+    
+        private void SubscribeLogger(ITestLoggerManager currentLoggerManager, ITestLoggerManager vsTestLoggerManager)
+        {
+            if (vsTestLoggerManager == null)
+            {
+                System.Diagnostics.Trace.WriteLine("Here");
+                return;
+            }
+
+            ((TestLoggerManager)currentLoggerManager).loggerEvents.DiscoveredTests += (o, e) =>
+            {
+                vsTestLoggerManager.HandleDiscoveredTests(e);
+            };
+
+            ((TestLoggerManager)currentLoggerManager).loggerEvents.DiscoveryComplete += (o, e) =>
+            {
+                vsTestLoggerManager.HandleDiscoveryComplete(e);
+            };
+
+            ((TestLoggerManager)currentLoggerManager).loggerEvents.DiscoveryMessage += (o, e) =>
+            {
+                vsTestLoggerManager.HandleDiscoveryMessage(e);
+            };
+
+            ((TestLoggerManager)currentLoggerManager).loggerEvents.DiscoveryStart += (o, e) =>
+            {
+                vsTestLoggerManager.HandleDiscoveryStart(e);
+            };
+
+            //((TestLoggerManager)currentLoggerManager).loggerEvents.TestResult += (o, e) =>
+            //{
+            //    vsTestLoggerManager.HandleTestRunComplete(e);
+            //};
+
+            ((TestLoggerManager)currentLoggerManager).loggerEvents.TestRunComplete += (o, e) =>
+            {
+                vsTestLoggerManager.HandleTestRunComplete(e);
+            };
+
+            ((TestLoggerManager)currentLoggerManager).loggerEvents.TestRunMessage += (o, e) =>
+            {
+                vsTestLoggerManager.HandleTestRunMessage(e);
+            };
+
+            ((TestLoggerManager)currentLoggerManager).loggerEvents.TestRunStart += (o, e) =>
+            {
+                vsTestLoggerManager.HandleTestRunStart(e);
+            };
         }
     }
 }

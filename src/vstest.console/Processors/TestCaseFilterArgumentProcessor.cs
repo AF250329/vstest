@@ -8,6 +8,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
     using System.Globalization;
     using Microsoft.VisualStudio.TestPlatform.CommandLine;
     using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Tracing.Interfaces;
+    using Microsoft.VisualStudio.TestPlatform.ObjectModel.Engine;
     using Microsoft.VisualStudio.TestPlatform.Utilities;
 
     using CommandLineResources = Microsoft.VisualStudio.TestPlatform.CommandLine.Resources.Resources;
@@ -143,7 +144,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         /// The TestCaseFilter is already set, return success.
         /// </summary>
         /// <returns> The <see cref="ArgumentProcessorResult"/> Success </returns>
-        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null)
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null, ITestLoggerManager vsTestLogManager = null)
         {
             return ArgumentProcessorResult.Success;
         }

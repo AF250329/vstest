@@ -213,6 +213,9 @@ namespace Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Client
                     envVars,
                     connectionInfo);
 
+
+            EqtTrace.Verbose("DefaultTestHostmanager::Received path is: " + hostStartInfo.FileName);
+
             if (!File.Exists(hostStartInfo.FileName))
             {
                 // Somehow can not set path to file in Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Hosting.DefaultTestHostManager::GetTestHostProcessStartInfo()
@@ -220,8 +223,28 @@ namespace Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Client
                 var fileName = Path.GetFileName(hostStartInfo.FileName);
                 var directory = Path.GetDirectoryName(hostStartInfo.FileName);
                 var frameworkMoniker = fileName.Split('.');
-                fileName = Path.Combine(directory, "TestsHosts", frameworkMoniker[1], "win7-x86", fileName);
+
+                EqtTrace.Verbose("DefaultTestHostmanager::[1] directory is: " + directory);
+
+                while (directory.Contains("\\TestHost"))
+                {
+                    directory = directory.Replace("\\TestHost", "");
+                }
+
+                EqtTrace.Verbose("DefaultTestHostmanager::[2] directory is: " + directory);
+
+                if (directory.Contains("\\TestsHosts") == false)
+                {
+                    fileName = Path.Combine(directory, "TestsHosts", frameworkMoniker[1], "win7-x86", fileName);
+                }
+                else
+                {
+                    fileName = Path.Combine(directory, frameworkMoniker[1], "win7-x86", fileName);
+                }
+
                 hostStartInfo.FileName = fileName;
+
+                EqtTrace.Verbose("DefaultTestHostmanager::Fixed path to: " + hostStartInfo.FileName);
             }
 
             var testHostStartInfo = this.UpdateTestProcessStartInfo(hostStartInfo);

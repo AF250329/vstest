@@ -14,7 +14,7 @@ namespace Microsoft.VisualStudio.TestPlatform.Common.Logging
     /// <summary>
     /// The test session message logger.
     /// </summary>
-    internal class TestSessionMessageLogger : IMessageLogger
+    public class TestSessionMessageLogger : IMessageLogger
     {
         private static TestSessionMessageLogger instance;
 

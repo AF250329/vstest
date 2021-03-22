@@ -28,7 +28,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Client
     /// Responsible for managing logger extensions and broadcasting results
     /// and error/warning/informational messages to them.
     /// </summary>
-    internal class TestLoggerManager : ITestLoggerManager
+    public class TestLoggerManager : ITestLoggerManager
     {
         #region FieldsLog
 
@@ -60,7 +60,11 @@ namespace Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Client
         /// <summary>
         /// Test Logger Events instance which will be passed to loggers when they are initialized.
         /// </summary>
-        private InternalTestLoggerEvents loggerEvents;
+        public InternalTestLoggerEvents loggerEvents
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// Message logger.

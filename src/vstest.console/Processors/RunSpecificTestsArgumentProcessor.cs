@@ -21,6 +21,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
     using Microsoft.VisualStudio.TestPlatform.Utilities;
     using CommandLineResources = Resources.Resources;
     using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Tracing.Interfaces;
+    using Microsoft.VisualStudio.TestPlatform.ObjectModel.Engine;
 
     internal class RunSpecificTestsArgumentProcessor : IArgumentProcessor
     {
@@ -200,7 +201,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         /// Execute specific tests that match any of the given strings.
         /// </summary>
         /// <returns></returns>
-        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null)
+        public ArgumentProcessorResult Execute(IObjectWriter objectWriter = null, ITestPlatformEventSource testPlatformEventSource = null, ITestLoggerManager vsTestLogManager = null)
         {
             Contract.Assert(this.output != null);
             Contract.Assert(this.commandLineOptions != null);
@@ -213,6 +214,8 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
             }
 
             this.effectiveRunSettings = this.runSettingsManager.ActiveRunSettings.SettingsXml;
+
+            ((TestRequestManager)this.testRequestManager).VSTestLoggerManager = this.VSTestLoggerManager = vsTestLogManager;
 
             // Discover tests from sources and filter on every discovery reported.
             this.DiscoverTestsAndSelectSpecified(this.commandLineOptions.Sources);
@@ -235,6 +238,13 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
         #endregion
 
         #region Private Methods
+
+        private ITestLoggerManager VSTestLoggerManager
+        {
+            get;
+            set;
+
+        }
 
         /// <summary>
         /// Discovers tests from the given sources and selects only specified tests.
@@ -271,6 +281,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine.Processors
 
                 EqtTrace.Verbose("RunSpecificTestsArgumentProcessor:Execute: Test run is queued.");
                 var runRequestPayload = new TestRunRequestPayload() { TestCases = this.selectedTestCases.ToList(), RunSettings = this.effectiveRunSettings, KeepAlive = keepAlive, TestPlatformOptions = new TestPlatformOptions() { TestCaseFilter = this.commandLineOptions.TestCaseFilterValue }};
+
                 this.testRequestManager.RunTests(runRequestPayload, null, this.testRunEventsRegistrar, Constants.DefaultProtocolConfig);
             }
             else
