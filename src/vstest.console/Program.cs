@@ -10,7 +10,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine
 
     using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Tracing.Interfaces;
     using Microsoft.VisualStudio.TestPlatform.ObjectModel.Engine;
-    using Microsoft.VisualStudio.TestPlatform.Utilities;
+    using Microsoft.VisualStudio.TestPlatform.Utilities; 
 
     /// <summary>
     /// Main entry point for the command line runner.
