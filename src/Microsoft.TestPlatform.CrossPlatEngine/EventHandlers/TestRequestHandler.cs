@@ -373,6 +373,9 @@ namespace Microsoft.VisualStudio.TestPlatform.CommunicationUtilities
 
                 case MessageType.StartTestExecutionWithTests:
                     {
+                        System.Diagnostics.Debugger.Launch();
+                        System.Diagnostics.Debugger.Break();
+
                         EqtTrace.Info("Execution started.");
                         var testRunEventsHandler = new TestRunEventsHandler(this);
                         this.testHostManagerFactoryReady.Wait();
