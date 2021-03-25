@@ -111,7 +111,8 @@ $env:DOTNET_SKIP_FIRST_TIME_EXPERIENCE = 1
 # Dotnet build doesn't support --packages yet. See https://github.com/dotnet/cli/issues/2712
 $env:NUGET_PACKAGES = $env:TP_PACKAGES_DIR
 $env:NUGET_EXE_Version = "5.8.1"
-$env:DOTNET_CLI_VERSION = "6.0.100-preview.1.21103.13"
+# $env:DOTNET_CLI_VERSION = "6.0.100-preview.1.21103.13"
+$env:DOTNET_CLI_VERSION = "5.0.201"
 # $env:DOTNET_RUNTIME_VERSION = "LATEST"
 $env:VSWHERE_VERSION = "2.0.2"
 $env:MSBUILD_VERSION = "15.0"
@@ -459,7 +460,7 @@ function Publish-Package
                 $TPB_TargetFrameworkNS10   = $netstandard10PackageDir      # netstandard1_0
                 $TPB_TargetFrameworkNS13   = $netstandard13PackageDir      # netstandard1_3
                 $TPB_TargetFrameworkNS20   = $netstandard20PackageDir      # netstandard2_0
-                $TPB_TargetFrameworkUap100 = $testhostUapPackageDir        # uap10.0
+                # $TPB_TargetFrameworkUap100 = $testhostUapPackageDir        # uap10.0
               }
 
     ################################################################################
@@ -471,7 +472,7 @@ function Publish-Package
                 $TPB_TargetFrameworkNS10    = $netstandard10PackageDir       # netstandard1_0
                 $TPB_TargetFrameworkNS13    = $netstandard13PackageDir       # netstandard1_3
                 $TPB_TargetFrameworkNS20    = $netstandard20PackageDir       # netstandard2_0
-                $TPB_TargetFrameworkUap100  = $testhostUapPackageDir         # uap10.0
+                # $TPB_TargetFrameworkUap100  = $testhostUapPackageDir         # uap10.0
               }
 
     ################################################################################
@@ -483,7 +484,7 @@ function Publish-Package
                 $TPB_TargetFrameworkNS10    = $netstandard10PackageDir       # netstandard1_0
                 $TPB_TargetFrameworkNS13    = $netstandard13PackageDir       # netstandard1_3
                 $TPB_TargetFrameworkNS20    = $netstandard20PackageDir       # netstandard2_0
-                $TPB_TargetFrameworkUap100  = $testhostUapPackageDir         # uap10.0
+                # $TPB_TargetFrameworkUap100  = $testhostUapPackageDir         # uap10.0
               }
 
     ################################################################################
@@ -494,7 +495,7 @@ function Publish-Package
                 "net45/any"                 = $net45PackageDir               # $net4
                 $TPB_TargetFrameworkNS10    = $netstandard10PackageDir       # netstandard1_0
                 $TPB_TargetFrameworkNS20    = $netstandard20PackageDir       # netstandard2_0
-                $TPB_TargetFrameworkUap100  = $uap100PackageDir              # uap10.0
+                # $TPB_TargetFrameworkUap100  = $uap100PackageDir              # uap10.0
             }
 
     ################################################################################
@@ -1238,19 +1239,19 @@ if ($Force -or $Steps -contains "Build") {
     Invoke-Build
 }
 
-if ($Force -or $Steps -contains "Publish") {
-    Publish-Package
-    Create-VsixPackage
-    Create-NugetPackages
-    Generate-Manifest
-    Copy-PackageIntoStaticDirectory
-}
+# if ($Force -or $Steps -contains "Publish") {
+#     Publish-Package
+#     Create-VsixPackage
+#     Create-NugetPackages
+#     Generate-Manifest
+#     Copy-PackageIntoStaticDirectory
+# }
 
-if ($Force -or $Steps -contains "PrepareAcceptanceTests") {
-    Publish-PatchedDotnet
-    Invoke-TestAssetsBuild
-    Publish-Tests
-}
+# if ($Force -or $Steps -contains "PrepareAcceptanceTests") {
+#     Publish-PatchedDotnet
+#     Invoke-TestAssetsBuild
+#     Publish-Tests
+# }
  
 Write-Log "Build complete. {$(Get-ElapsedTime($timer))}"
 if ($Script:ScriptFailed) { Exit 1 } else { Exit 0 }
