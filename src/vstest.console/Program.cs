@@ -49,24 +49,6 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine
 
         public static int RunExecutor(string[] args, ITestPlatformEventSource testPlatformEventSource, IObjectWriter objectWriter = null, ITestLoggerManager vsTestLogManager = null)
         {
-            var debugEnabled = Environment.GetEnvironmentVariable("VSTEST_RUNNER_DEBUG");
-            if (!string.IsNullOrEmpty(debugEnabled) && debugEnabled.Equals("1", StringComparison.Ordinal))
-            {
-                ConsoleOutput.Instance.WriteLine("Waiting for debugger attach...", OutputLevel.Information);
-
-                var currentProcess = System.Diagnostics.Process.GetCurrentProcess();
-                ConsoleOutput.Instance.WriteLine(
-                    string.Format("Process Id: {0}, Name: {1}", currentProcess.Id, currentProcess.ProcessName),
-                    OutputLevel.Information);
-
-                while (!Debugger.IsAttached)
-                {
-                    Thread.Sleep(1000);
-                }
-
-                Debugger.Break();
-            }
-
             SetCultureSpecifiedByUser();
 
             var executor = new Executor(ConsoleOutput.Instance, testPlatformEventSource);
