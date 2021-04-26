@@ -185,8 +185,8 @@ namespace Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Hosting
             IDictionary<string, string> environmentVariables,
             TestRunnerConnectionInfo connectionInfo)
         {
-            System.Diagnostics.Debugger.Launch();
-            System.Diagnostics.Debugger.Break();
+            //System.Diagnostics.Debugger.Launch();
+            //System.Diagnostics.Debugger.Break();
 
             var startInfo = new TestProcessStartInfo();
 

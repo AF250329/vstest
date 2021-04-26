@@ -170,7 +170,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Client
         {
             this.CancellationTokenSource.Token.ThrowTestPlatformExceptionIfCancellationRequested();
 
-            //System.Diagnostics.Debugger.Launch();
+            //System.Diagnostics.Debugger.Launch(); 
             //System.Diagnostics.Debugger.Break();
 
             if (this.initialized)

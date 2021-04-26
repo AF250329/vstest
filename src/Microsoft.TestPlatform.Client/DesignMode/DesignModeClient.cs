@@ -191,8 +191,8 @@ namespace Microsoft.VisualStudio.TestPlatform.Client.DesignMode
 
                         case MessageType.StartDiscovery:
                             {
-                                System.Diagnostics.Debugger.Launch();
-                                System.Diagnostics.Debugger.Break();
+                                //System.Diagnostics.Debugger.Launch();
+                                //System.Diagnostics.Debugger.Break();
 
                                 var discoveryPayload = this.dataSerializer.DeserializePayload<DiscoveryRequestPayload>(message);
                                 this.StartDiscovery(discoveryPayload, testRequestManager);
