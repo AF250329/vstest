@@ -47,7 +47,7 @@ namespace Microsoft.VisualStudio.TestPlatform.CommandLine
     /// </summary>
     internal class Executor
     {
-        private ITestPlatformEventSource testPlatformEventSource;
+        private readonly ITestPlatformEventSource testPlatformEventSource;
         private bool showHelp;
 
         #region Constructor
