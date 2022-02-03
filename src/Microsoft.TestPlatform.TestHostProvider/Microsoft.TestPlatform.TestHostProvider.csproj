@@ -22,7 +22,7 @@
     </ProjectReference>
 
     <PackageReference Include="Newtonsoft.Json">
-      <Version>$(JsonNetVersion)</Version>
+      <Version>13.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

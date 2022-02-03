@@ -19,7 +19,7 @@
     <ProjectReference Include="..\Microsoft.TestPlatform.Common\Microsoft.TestPlatform.Common.csproj" />
 
     <PackageReference Include="Newtonsoft.Json">
-      <Version>$(JsonNetVersion)</Version>
+      <Version>13.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
