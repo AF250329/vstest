@@ -170,6 +170,8 @@ public class ProxyOperationManager
     {
         CancellationTokenSource.Token.ThrowTestPlatformExceptionIfCancellationRequested();
 
+        //System.Diagnostics.Debugger.Launch(); 
+        //System.Diagnostics.Debugger.Break();
         if (_initialized)
         {
             return true;
@@ -205,17 +207,19 @@ public class ProxyOperationManager
         var envVars = InferRunSettingsHelper.GetEnvironmentVariables(runSettings);
 
         // Get the test process start info.
-        var testHostStartInfo = UpdateTestProcessStartInfo(
-            TestHostManager.GetTestHostProcessStartInfo(
+        var testHostStartInfo = this.UpdateTestProcessStartInfo(
+            this.TestHostManager.GetTestHostProcessStartInfo(
                 sources,
                 envVars,
                 connectionInfo));
         try
         {
             // Launch the test host.
-            _testHostLaunched = TestHostManager.LaunchTestHostAsync(
+            var hostLaunchedTask = this.TestHostManager.LaunchTestHostAsync(
                 testHostStartInfo,
-                CancellationTokenSource.Token).Result;
+                this.CancellationTokenSource.Token);
+
+            _testHostLaunched = hostLaunchedTask.Result;
 
             if (_testHostLaunched && testHostConnectionInfo.Role == ConnectionRole.Host)
             {

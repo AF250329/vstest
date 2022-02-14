@@ -70,6 +70,19 @@ if([string]::IsNullOrWhiteSpace($Version))
     Write-Verbose "Version was not provided using version '$Version' from TestPlatform.Settings.targets"
 }
 
+#
+# Dotnet configuration
+#
+# Disable first run since we want to control all package sources 
+Write-Verbose "Setup dotnet configuration."
+$env:DOTNET_SKIP_FIRST_TIME_EXPERIENCE = 1 
+# Dotnet build doesn't support --packages yet. See https://github.com/dotnet/cli/issues/2712
+$env:NUGET_PACKAGES = $env:TP_PACKAGES_DIR
+$env:NUGET_EXE_Version = "5.8.1"
+$env:DOTNET_CLI_VERSION = "6.0.100-preview.1.21103.13"
+# $env:DOTNET_RUNTIME_VERSION = "LATEST"
+$env:VSWHERE_VERSION = "2.0.2"
+$env:MSBUILD_VERSION = "15.0"
 
 #
 # Build configuration
@@ -334,11 +347,7 @@ function Publish-Package
                 $TPB_TargetFrameworkNS10   = $netstandard10PackageDir      # netstandard1_0
                 $TPB_TargetFrameworkNS13   = $netstandard13PackageDir      # netstandard1_3
                 $TPB_TargetFrameworkNS20   = $netstandard20PackageDir      # netstandard2_0
-                $TPB_TargetFrameworkUap100 = $uap100PackageDir             # uap10.0
-              }
-    Copy-Bulk -root (Join-Path $env:TP_ROOT_DIR "src\Microsoft.TestPlatform.PlatformAbstractions\bin\$TPB_Configuration") `
-              -files @{
-                $TPB_TargetFrameworkUap100 = $testhostUapPackageDir        # uap10.0 - testhost
+                $TPB_TargetFrameworkUap100 = $testhostUapPackageDir        # uap10.0
               }
 
     ################################################################################
@@ -350,12 +359,17 @@ function Publish-Package
                 $TPB_TargetFrameworkNS10    = $netstandard10PackageDir       # netstandard1_0
                 $TPB_TargetFrameworkNS13    = $netstandard13PackageDir       # netstandard1_3
                 $TPB_TargetFrameworkNS20    = $netstandard20PackageDir       # netstandard2_0
-                $TPB_TargetFrameworkUap100  = $uap100PackageDir              # uap10.0
+                $TPB_TargetFrameworkUap100  = $testhostUapPackageDir         # uap10.0
               }
 
     Copy-Bulk -root (Join-Path $env:TP_ROOT_DIR "src\Microsoft.TestPlatform.CoreUtilities\bin\$TPB_Configuration") `
               -files @{
-                $TPB_TargetFrameworkUap100  = $testhostUapPackageDir         # uap10.0 - testhost
+                $TPB_TargetFramework45      = $fullCLRPackage45Dir           # net45
+                $TPB_TargetFramework451     = $fullCLRPackage451Dir          # net451
+                $TPB_TargetFrameworkNS10    = $netstandard10PackageDir       # netstandard1_0
+                $TPB_TargetFrameworkNS13    = $netstandard13PackageDir       # netstandard1_3
+                $TPB_TargetFrameworkNS20    = $netstandard20PackageDir       # netstandard2_0
+                $TPB_TargetFrameworkUap100  = $testhostUapPackageDir         # uap10.0
               }
 
     ################################################################################
@@ -366,7 +380,7 @@ function Publish-Package
                 "net45/any"                 = $net45PackageDir               # $net4
                 $TPB_TargetFrameworkNS10    = $netstandard10PackageDir       # netstandard1_0
                 $TPB_TargetFrameworkNS20    = $netstandard20PackageDir       # netstandard2_0
-                $TPB_TargetFrameworkUap100  = $uap100PackageDir              # uap10.0
+                # $TPB_TargetFrameworkUap100  = $uap100PackageDir              # uap10.0
             }
 
     ################################################################################
@@ -1138,14 +1152,7 @@ if ($Force -or $Steps -contains "Publish") {
     Publish-Package
     Create-VsixPackage
     Create-NugetPackages
-}
-
-if ($Force -or $Steps -contains "Publish" -or $Steps -contains "Manifest") {
-    Generate-Manifest -PackageFolder $TPB_PackageOutDir
-    if (Test-Path $TPB_SourceBuildPackageOutDir)
-    {
-        Generate-Manifest -PackageFolder $TPB_SourceBuildPackageOutDir
-    }
+    Generate-Manifest
     Copy-PackageIntoStaticDirectory
 }
 
@@ -1154,11 +1161,6 @@ if ($Force -or $Steps -contains "PrepareAcceptanceTests") {
     Invoke-TestAssetsBuild
     Publish-Tests
 }
-
-if ($Script:ScriptFailed) {
-    Write-Log "Build failed. {$(Get-ElapsedTime($timer))}" -Level "Error"
-    Exit 1
-} else {
-    Write-Log "Build succeeded. {$(Get-ElapsedTime($timer))}"
-    Exit 0
-}
+ 
+Write-Log "Build complete. {$(Get-ElapsedTime($timer))}"
+if ($Script:ScriptFailed) { Exit 1 } else { Exit 0 }

@@ -352,6 +352,11 @@ public class TestRequestHandler : ITestRequestHandler
                 {
                     try
                     {
+                        //System.Diagnostics.Debugger.Launch();
+                        //System.Diagnostics.Debugger.Break();
+
+                        EqtTrace.Info("Discovery started.");
+
                         _testHostManagerFactoryReady.Wait();
                         var discoveryEventsHandler = new TestDiscoveryEventHandler(this);
                         var discoveryCriteria = _dataSerializer.DeserializePayload<DiscoveryCriteria>(message);
@@ -429,10 +434,11 @@ public class TestRequestHandler : ITestRequestHandler
                     break;
                 }
 
-            case MessageType.StartTestExecutionWithTests:
-                {
+                case MessageType.StartTestExecutionWithTests:
+                { 
                     try
                     {
+                        EqtTrace.Info("Execution started.");
                         var testRunEventsHandler = new TestRunEventsHandler(this);
                         _testHostManagerFactoryReady.Wait();
                         var testRunCriteriaWithTests =

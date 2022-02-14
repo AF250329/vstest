@@ -10,20 +10,28 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-using Discovery;
-using Execution;
 using Common;
 using Common.ExtensionFramework;
 using Common.Hosting;
 using Common.Logging;
-using Microsoft.VisualStudio.TestPlatform.Common.Utilities;
+
 using CrossPlatEngine;
-using ObjectModel;
+
+using Discovery;
+
+using Execution;
+
+using Microsoft.VisualStudio.TestPlatform.Common.Utilities;
+using Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Client;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel.Utilities;
+
+using ObjectModel;
 using ObjectModel.Engine;
 using ObjectModel.Host;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel.Utilities;
+
 using PlatformAbstractions;
+
 using Utilities.Helpers;
 using Utilities.Helpers.Interfaces;
 
@@ -32,11 +40,17 @@ using ClientResources = Resources.Resources;
 /// <summary>
 /// Implementation for TestPlatform.
 /// </summary>
-internal class TestPlatform : ITestPlatform
+public class TestPlatform : ITestPlatform
 {
     private readonly TestRuntimeProviderManager _testHostProviderManager;
 
     private readonly IFileHelper _fileHelper;
+
+    public ITestLoggerManager VStestLoggerManager
+    {
+        get;
+        set;
+    }
 
     static TestPlatform()
     {
@@ -104,7 +118,9 @@ internal class TestPlatform : ITestPlatform
         var loggerManager = TestEngine.GetLoggerManager(requestData);
         loggerManager.Initialize(discoveryCriteria.RunSettings);
 
-        var testHostManager = _testHostProviderManager.GetTestHostManagerByRunConfiguration(discoveryCriteria.RunSettings);
+        SubscribeLogger(loggerManager, this.VStestLoggerManager);
+
+        var testHostManager = this._testHostProviderManager.GetTestHostManagerByRunConfiguration(discoveryCriteria.RunSettings);
         ThrowExceptionIfTestHostManagerIsNull(testHostManager, discoveryCriteria.RunSettings);
 
         testHostManager.Initialize(TestSessionMessageLogger.Instance, discoveryCriteria.RunSettings);
@@ -140,7 +156,9 @@ internal class TestPlatform : ITestPlatform
         var loggerManager = TestEngine.GetLoggerManager(requestData);
         loggerManager.Initialize(testRunCriteria.TestRunSettings);
 
-        var testHostManager = _testHostProviderManager.GetTestHostManagerByRunConfiguration(testRunCriteria.TestRunSettings);
+        SubscribeLogger(loggerManager, this.VStestLoggerManager);
+
+        var testHostManager = this._testHostProviderManager.GetTestHostManagerByRunConfiguration(testRunCriteria.TestRunSettings);
         ThrowExceptionIfTestHostManagerIsNull(testHostManager, testRunCriteria.TestRunSettings);
 
         testHostManager.Initialize(TestSessionMessageLogger.Instance, testRunCriteria.TestRunSettings);
@@ -332,4 +350,53 @@ internal class TestPlatform : ITestPlatform
             TestPluginCache.Instance.DefaultExtensionPaths = defaultExtensionPaths;
         }
     }
+
+    private void SubscribeLogger(ITestLoggerManager currentLoggerManager, ITestLoggerManager vsTestLoggerManager)
+        {
+            if (vsTestLoggerManager == null)
+            {
+                System.Diagnostics.Trace.WriteLine("Here");
+                return;
+            }
+
+            ((TestLoggerManager)currentLoggerManager).loggerEvents.DiscoveredTests += (o, e) =>
+            {
+                vsTestLoggerManager.HandleDiscoveredTests(e);
+            };
+
+            ((TestLoggerManager)currentLoggerManager).loggerEvents.DiscoveryComplete += (o, e) =>
+            {
+                vsTestLoggerManager.HandleDiscoveryComplete(e);
+            };
+
+            ((TestLoggerManager)currentLoggerManager).loggerEvents.DiscoveryMessage += (o, e) =>
+            {
+                vsTestLoggerManager.HandleDiscoveryMessage(e);
+            };
+
+            ((TestLoggerManager)currentLoggerManager).loggerEvents.DiscoveryStart += (o, e) =>
+            {
+                vsTestLoggerManager.HandleDiscoveryStart(e);
+            };
+
+            //((TestLoggerManager)currentLoggerManager).loggerEvents.TestResult += (o, e) =>
+            //{
+            //    vsTestLoggerManager.HandleTestRunComplete(e);
+            //};
+
+            ((TestLoggerManager)currentLoggerManager).loggerEvents.TestRunComplete += (o, e) =>
+            {
+                vsTestLoggerManager.HandleTestRunComplete(e);
+            };
+
+            ((TestLoggerManager)currentLoggerManager).loggerEvents.TestRunMessage += (o, e) =>
+            {
+                vsTestLoggerManager.HandleTestRunMessage(e);
+            };
+
+            ((TestLoggerManager)currentLoggerManager).loggerEvents.TestRunStart += (o, e) =>
+            {
+                vsTestLoggerManager.HandleTestRunStart(e);
+            };
+        }
 }

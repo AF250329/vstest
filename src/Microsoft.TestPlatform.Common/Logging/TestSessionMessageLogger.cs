@@ -14,7 +14,7 @@ using ObjectModelCommonResources = ObjectModel.Resources.CommonResources;
 /// <summary>
 /// The test session message logger.
 /// </summary>
-internal class TestSessionMessageLogger : IMessageLogger
+public class TestSessionMessageLogger : IMessageLogger
 {
     private static TestSessionMessageLogger s_instance;
 

@@ -137,6 +137,24 @@ internal class TestRequestManager : ITestRequestManager
         }
     }
 
+    public ITestLoggerManager VSTestLoggerManager
+    {
+        get
+        {
+            return ((Microsoft.VisualStudio.TestPlatform.Client.TestPlatform) _testPlatform).VStestLoggerManager;
+        }
+        set
+        {
+            ((Microsoft.VisualStudio.TestPlatform.Client.TestPlatform) _testPlatform).VStestLoggerManager = value;
+        }
+    }
+
+    public ITestPlatformEventSource TestPlatformEventSourceInstance
+    {
+        get;
+        set;
+    }
+
     #region ITestRequestManager
 
     /// <inheritdoc />
@@ -970,6 +988,7 @@ internal class TestRequestManager : ITestRequestManager
 
                 _testRunResultAggregator.RegisterTestRunEvents(_currentTestRunRequest);
                 testRunEventsRegistrar?.RegisterTestRunEvents(_currentTestRunRequest);
+                ((Microsoft.VisualStudio.TestPlatform.Client.TestPlatform)this._testPlatform).VStestLoggerManager = this.VSTestLoggerManager;
 
                 _testPlatformEventSource.ExecutionRequestStart();
 

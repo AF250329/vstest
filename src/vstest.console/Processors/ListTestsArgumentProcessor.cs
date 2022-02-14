@@ -216,9 +216,13 @@ internal class ListTestsArgumentExecutor : IArgumentExecutor
 
         var runSettings = _runSettingsManager.ActiveRunSettings.SettingsXml;
 
-        _testRequestManager.DiscoverTests(
-            new DiscoveryRequestPayload() { Sources = _commandLineOptions.Sources, RunSettings = runSettings },
-            _discoveryEventsRegistrar, Constants.DefaultProtocolConfig);
+            _discoveryEventsRegistrar.ObjectWriter = objectWriter;
+
+            _testRequestManager.TestPlatformEventSourceInstance = testPlatformEventSource;
+
+            _testRequestManager.DiscoverTests(
+                new DiscoveryRequestPayload() { Sources = _commandLineOptions.Sources, RunSettings = runSettings },
+                _discoveryEventsRegistrar, Constants.DefaultProtocolConfig);
 
         return ArgumentProcessorResult.Success;
     }
@@ -234,10 +238,12 @@ internal class ListTestsArgumentExecutor : IArgumentExecutor
             _output = output;
         }
 
-        public void LogWarning(string message)
-        {
-            ConsoleLogger.RaiseTestRunWarning(message);
-        }
+            public IObjectWriter ObjectWriter { get; set; }
+
+            public void LogWarning(string message)
+            {
+                ConsoleLogger.RaiseTestRunWarning(message);
+            }
 
         public void RegisterDiscoveryEvents(IDiscoveryRequest discoveryRequest)
         {
@@ -254,10 +260,15 @@ internal class ListTestsArgumentExecutor : IArgumentExecutor
             // List out each of the tests.
             foreach (var test in args.DiscoveredTestCases)
             {
-                _output.WriteLine(String.Format(CultureInfo.CurrentUICulture,
-                        CommandLineResources.AvailableTestsFormat,
-                        test.DisplayName),
-                    OutputLevel.Information);
+                if (this.ObjectWriter != null)
+                {
+                    this.ObjectWriter.SendObject(test);
+                }
+
+                this._output.WriteLine(String.Format(CultureInfo.CurrentUICulture,
+                                                CommandLineResources.AvailableTestsFormat,
+                                                test.DisplayName),
+                                    OutputLevel.Information);
             }
         }
     }

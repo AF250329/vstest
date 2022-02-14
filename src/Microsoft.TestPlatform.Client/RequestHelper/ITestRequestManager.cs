@@ -8,24 +8,27 @@ using System.Collections.Generic;
 
 using Common.Interfaces;
 
+using Microsoft.VisualStudio.TestPlatform.CoreUtilities.Tracing.Interfaces;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client.Interfaces;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client.Payloads;
 
-/// <summary>
-/// Defines the contract for running various requests.
-/// </summary>
-public interface ITestRequestManager : IDisposable
-{
     /// <summary>
-    /// Initializes the extensions while probing additional paths.
+    /// Defines the contract for running various requests.
     /// </summary>
-    /// 
-    /// <param name="pathToAdditionalExtensions">Paths to additional extensions.</param>
-    /// <param name="skipExtensionFilters">Skip extension filtering by name if true.</param>
-    void InitializeExtensions(
-        IEnumerable<string> pathToAdditionalExtensions,
-        bool skipExtensionFilters);
+    public interface ITestRequestManager : IDisposable
+    {
+        ITestPlatformEventSource TestPlatformEventSourceInstance { get; set; }
+
+        /// <summary>
+        /// Initializes the extensions while probing additional paths.
+        /// </summary>
+        /// 
+        /// <param name="pathToAdditionalExtensions">Paths to additional extensions.</param>
+        /// <param name="skipExtensionFilters">Skip extension filtering by name if true.</param>
+        void InitializeExtensions(
+            IEnumerable<string> pathToAdditionalExtensions,
+            bool skipExtensionFilters);
 
     /// <summary>
     /// Resets vstest.console.exe options.

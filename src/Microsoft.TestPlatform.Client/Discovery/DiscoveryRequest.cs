@@ -193,10 +193,10 @@ public sealed class DiscoveryRequest : IDiscoveryRequest, ITestDiscoveryEventsHa
     /// </summary>
     internal IProxyDiscoveryManager DiscoveryManager { get; }
 
-    /// <summary>
-    /// Logger manager.
-    /// </summary>
-    internal ITestLoggerManager LoggerManager { get; }
+        /// <summary>
+        /// Logger manager.
+        /// </summary>
+        public ITestLoggerManager LoggerManager { get; private set; }
 
     #region ITestDiscoveryEventsHandler2 Methods
 

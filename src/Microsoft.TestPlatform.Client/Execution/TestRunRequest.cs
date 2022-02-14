@@ -319,13 +319,14 @@ public class TestRunRequest : ITestRunRequest, ITestRunEventsHandler2
         get; private set;
     }
 
-    /// <summary>
-    /// Logger manager.
-    /// </summary>
-    internal ITestLoggerManager LoggerManager
-    {
-        get; private set;
-    }
+        /// <summary>
+        /// Logger manager.
+        /// </summary>
+        public ITestLoggerManager LoggerManager
+        {
+            get; 
+            set;
+        }
 
     #endregion
 

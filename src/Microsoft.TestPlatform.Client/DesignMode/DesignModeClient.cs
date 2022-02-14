@@ -186,12 +186,15 @@ public class DesignModeClient : IDesignModeClient
                             break;
                         }
 
-                    case MessageType.StartDiscovery:
-                        {
-                            var discoveryPayload = _dataSerializer.DeserializePayload<DiscoveryRequestPayload>(message);
-                            StartDiscovery(discoveryPayload, testRequestManager);
-                            break;
-                        }
+                        case MessageType.StartDiscovery:
+                            {
+                                //System.Diagnostics.Debugger.Launch();
+                                //System.Diagnostics.Debugger.Break();
+
+                                var discoveryPayload = _dataSerializer.DeserializePayload<DiscoveryRequestPayload>(message);
+                                StartDiscovery(discoveryPayload, testRequestManager);
+                                break;
+                            }
 
                     case MessageType.GetTestRunnerProcessStartInfoForRunAll:
                     case MessageType.GetTestRunnerProcessStartInfoForRunSelected:

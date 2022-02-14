@@ -219,9 +219,12 @@ internal class RunSpecificTestsArgumentExecutor : IArgumentExecutor
 
         _effectiveRunSettings = _runSettingsManager.ActiveRunSettings.SettingsXml;
 
-        // Discover tests from sources and filter on every discovery reported.
-        DiscoverTestsAndSelectSpecified(_commandLineOptions.Sources);
+        ((TestRequestManager)this._testRequestManager).VSTestLoggerManager = this.VSTestLoggerManager = vsTestLogManager;
 
+        // Discover tests from sources and filter on every discovery reported.
+        this.DiscoverTestsAndSelectSpecified(this._commandLineOptions.Sources);
+
+        this._testRequestManager.TestPlatformEventSourceInstance = testPlatformEventSource;
         // Now that tests are discovered and filtered, we run only those selected tests.
         ExecuteSelectedTests();
 
@@ -233,6 +236,13 @@ internal class RunSpecificTestsArgumentExecutor : IArgumentExecutor
     #endregion
 
     #region Private Methods
+
+    private ITestLoggerManager VSTestLoggerManager
+    {
+        get;
+        set;
+
+    }
 
     /// <summary>
     /// Discovers tests from the given sources and selects only specified tests.
@@ -329,6 +339,8 @@ internal class RunSpecificTestsArgumentExecutor : IArgumentExecutor
         {
             _discoveredTestsHandler = discoveredTestsHandler;
         }
+
+        public IObjectWriter ObjectWriter { get; set; }
 
         public void LogWarning(string message)
         {

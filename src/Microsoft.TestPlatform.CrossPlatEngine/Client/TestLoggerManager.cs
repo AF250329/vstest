@@ -14,12 +14,15 @@ using Common.Exceptions;
 using Common.ExtensionFramework;
 using Common.Logging;
 using Common.Telemetry;
+
 using Microsoft.VisualStudio.TestPlatform.Common.Utilities;
-using ObjectModel;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Client;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel.Utilities;
+
+using ObjectModel;
 using ObjectModel.Engine;
 using ObjectModel.Logging;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel.Utilities;
+
 using PlatformAbstractions;
 using PlatformAbstractions.Interfaces;
 
@@ -29,7 +32,7 @@ using CommonResources = Common.Resources.Resources;
 /// Responsible for managing logger extensions and broadcasting results
 /// and error/warning/informational messages to them.
 /// </summary>
-internal class TestLoggerManager : ITestLoggerManager
+public class TestLoggerManager : ITestLoggerManager
 {
     #region FieldsLog
 
@@ -61,7 +64,11 @@ internal class TestLoggerManager : ITestLoggerManager
     /// <summary>
     /// Test Logger Events instance which will be passed to loggers when they are initialized.
     /// </summary>
-    private readonly InternalTestLoggerEvents _loggerEvents;
+    public InternalTestLoggerEvents loggerEvents
+    {
+        get;
+        set;
+    }
 
     /// <summary>
     /// Message logger.
@@ -105,12 +112,12 @@ internal class TestLoggerManager : ITestLoggerManager
     /// <param name="loggerEvents"></param>
     /// <param name="assemblyLoadContext"></param>
     internal TestLoggerManager(IRequestData requestData, IMessageLogger messageLogger,
-        InternalTestLoggerEvents loggerEvents, IAssemblyLoadContext assemblyLoadContext)
+        InternalTestLoggerEvents loggerEventsParam, IAssemblyLoadContext assemblyLoadContext)
     {
         _requestData = requestData;
         _messageLogger = messageLogger;
         _testLoggerExtensionManager = null;
-        _loggerEvents = loggerEvents;
+        loggerEvents = loggerEventsParam;
         _assemblyLoadContext = assemblyLoadContext;
     }
 
@@ -219,7 +226,7 @@ internal class TestLoggerManager : ITestLoggerManager
             return;
         }
 
-        _loggerEvents.RaiseTestRunMessage(e);
+        loggerEvents.RaiseTestRunMessage(e);
     }
 
     /// <summary>
@@ -236,7 +243,7 @@ internal class TestLoggerManager : ITestLoggerManager
 
         foreach (TestResult result in e.NewTestResults)
         {
-            _loggerEvents.RaiseTestResult(new TestResultEventArgs(result));
+            loggerEvents.RaiseTestResult(new TestResultEventArgs(result));
         }
     }
 
@@ -252,7 +259,7 @@ internal class TestLoggerManager : ITestLoggerManager
             return;
         }
 
-        _loggerEvents.RaiseTestRunStart(e);
+        loggerEvents.RaiseTestRunStart(e);
     }
 
     /// <summary>
@@ -265,7 +272,7 @@ internal class TestLoggerManager : ITestLoggerManager
         {
             try
             {
-                _loggerEvents.CompleteTestRun(e.TestRunStatistics, e.IsCanceled, e.IsAborted, e.Error,
+                loggerEvents.CompleteTestRun(e.TestRunStatistics, e.IsCanceled, e.IsAborted, e.Error,
                     e.AttachmentSets, e.InvokedDataCollectors, e.ElapsedTimeInRunningTests);
             }
             finally
@@ -292,7 +299,7 @@ internal class TestLoggerManager : ITestLoggerManager
             return;
         }
 
-        _loggerEvents.RaiseDiscoveryMessage(e);
+        loggerEvents.RaiseDiscoveryMessage(e);
     }
 
     /// <summary>
@@ -307,7 +314,7 @@ internal class TestLoggerManager : ITestLoggerManager
             return;
         }
 
-        _loggerEvents.RaiseDiscoveredTests(e);
+        loggerEvents.RaiseDiscoveredTests(e);
     }
 
     /// <summary>
@@ -320,7 +327,7 @@ internal class TestLoggerManager : ITestLoggerManager
         {
             try
             {
-                _loggerEvents.RaiseDiscoveryComplete(e);
+                loggerEvents.RaiseDiscoveryComplete(e);
             }
             finally
             {
@@ -346,7 +353,7 @@ internal class TestLoggerManager : ITestLoggerManager
             return;
         }
 
-        _loggerEvents.RaiseDiscoveryStart(e);
+        loggerEvents.RaiseDiscoveryStart(e);
     }
 
     /// <summary>
@@ -509,7 +516,7 @@ internal class TestLoggerManager : ITestLoggerManager
     internal void EnableLogging()
     {
         CheckDisposed();
-        _loggerEvents.EnableEvents();
+        loggerEvents.EnableEvents();
     }
 
     /// <summary>
@@ -524,7 +531,7 @@ internal class TestLoggerManager : ITestLoggerManager
         {
             if (disposing)
             {
-                _loggerEvents.Dispose();
+                loggerEvents.Dispose();
             }
 
             _isDisposed = true;
@@ -608,12 +615,12 @@ internal class TestLoggerManager : ITestLoggerManager
             switch (logger)
             {
                 case ITestLoggerWithParameters _:
-                    ((ITestLoggerWithParameters)logger).Initialize(_loggerEvents,
+                    ((ITestLoggerWithParameters)logger).Initialize(loggerEvents,
                         UpdateLoggerParameters(parameters));
                     break;
 
                 case ITestLogger _:
-                    ((ITestLogger)logger).Initialize(_loggerEvents, _testRunDirectory);
+                    ((ITestLogger)logger).Initialize(loggerEvents, _testRunDirectory);
                     break;
 
                 default:

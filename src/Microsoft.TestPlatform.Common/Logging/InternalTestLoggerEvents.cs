@@ -16,13 +16,13 @@ using System.Diagnostics;
 using System.Configuration;
 #endif
 
-/// <summary>
-/// Exposes events that Test Loggers can register for and allows for them
-/// to be raised through the IRunMessageLogger interface.
-/// </summary>
-internal class InternalTestLoggerEvents : TestLoggerEvents, IDisposable
-{
-    #region Fields
+    /// <summary>
+    /// Exposes events that Test Loggers can register for and allows for them
+    /// to be raised through the IRunMessageLogger interface.
+    /// </summary>
+    public class InternalTestLoggerEvents : TestLoggerEvents, IDisposable
+    {
+        #region Fields
 
     /// <summary>
     /// Queue used for events which are to be sent to the loggers.

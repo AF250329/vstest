@@ -249,6 +249,8 @@ internal class ListFullyQualifiedTestsArgumentExecutor : IArgumentExecutor
             _options = cmdOptions;
         }
 
+        public IObjectWriter ObjectWriter { get; set; }
+
         public void LogWarning(string message)
         {
             ConsoleLogger.RaiseTestRunWarning(message);
@@ -281,6 +283,14 @@ internal class ListFullyQualifiedTestsArgumentExecutor : IArgumentExecutor
                 .Select(fqdn => filteredTests.First(test => test.FullyQualifiedName == fqdn))
                 .ToList();
             _discoveredTests.AddRange(filteredTests.Select(test => test.FullyQualifiedName));
+
+            if (this.ObjectWriter != null)
+            {
+                foreach (var test in discoveredTests)
+                {
+                    this.ObjectWriter.SendObject(test);
+                }
+            }
         }
     }
 
