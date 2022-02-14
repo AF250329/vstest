@@ -127,19 +127,14 @@ public class DefaultTestHostManager : ITestRuntimeProvider2
 
     /// <inheritdoc/>
     public virtual TestProcessStartInfo GetTestHostProcessStartInfo(
-        IEnumerable<string> sources,
-        IDictionary<string, string> environmentVariables,
-        TestRunnerConnectionInfo connectionInfo)
+            IEnumerable<string> sources,
+            IDictionary<string, string> environmentVariables,
+            TestRunnerConnectionInfo connectionInfo)
     {
-        //System.Diagnostics.Debugger.Launch();
-        //System.Diagnostics.Debugger.Break();
-        // Breaks above won't work because this file is digitally signed !
-        // The debug process must start from \vstest.console.exe project - otherwise Debugger.Launch() and Debugger.Break() won't work
-
         string testHostProcessName;
-        if (this._targetFramework.Name.StartsWith(".NETFramework,Version=v"))
+        if (_targetFramework.Name.StartsWith(".NETFramework,Version=v"))
         {
-            var targetFrameworkMoniker = "net" + this._targetFramework.Name.Replace(".NETFramework,Version=v", string.Empty).Replace(".", string.Empty);
+            var targetFrameworkMoniker = "net" + _targetFramework.Name.Replace(".NETFramework,Version=v", string.Empty).Replace(".", string.Empty);
 
             // Net451 or older will use the default testhost.exe that is compiled against net451.
             var isSupportedNetTarget = new[] { "net452", "net46", "net461", "net462", "net47", "net471", "net472", "net48" }.Contains(targetFrameworkMoniker);
@@ -155,57 +150,17 @@ public class DefaultTestHostManager : ITestRuntimeProvider2
             testHostProcessName = string.Format(_architecture == Architecture.X86 ? X86TestHostProcessName : X64TestHostProcessName, string.Empty);
         }
 
-        // var currentWorkingDirectory = Path.Combine(Path.GetDirectoryName(typeof(DefaultTestHostManager).GetTypeInfo().Assembly.Location), "..//");
-        var currentWorkingDirectory = Path.GetDirectoryName(typeof(DefaultTestHostManager).GetTypeInfo().Assembly.Location);
+        var currentWorkingDirectory = Path.Combine(Path.GetDirectoryName(typeof(DefaultTestHostManager).GetTypeInfo().Assembly.Location), "..//");
         var argumentsString = " " + connectionInfo.ToCommandLineOptions();
-
-        System.Diagnostics.Trace.WriteLine($"[0]------------- currentWorkingDirectory = {currentWorkingDirectory}");
 
         // check in current location for testhost exe
         var testhostProcessPath = Path.Combine(currentWorkingDirectory, testHostProcessName);
 
-        System.Diagnostics.Trace.WriteLine($"[1]------------- Trying to find host process at: {testhostProcessPath}");
-
-        // Location \TestsHosts\net462\win7-x86\testhost.x86.exe
         if (!File.Exists(testhostProcessPath))
         {
             // "TestHost" is the name of the folder which contain Full CLR built testhost package assemblies.
-            var targetFrameworkMoniker = "net" + this._targetFramework.Name.Replace(".NETFramework,Version=v", string.Empty).Replace(".", string.Empty);
-            testHostProcessName = string.Format(this._architecture == Architecture.X86 ? X86TestHostProcessName : X64TestHostProcessName, string.Empty);
-
-            if (currentWorkingDirectory.Contains("TestsHosts") == false)
-            {
-                testHostProcessName = Path.Combine("TestsHosts", targetFrameworkMoniker, "win7-x86", testHostProcessName);
-            }
-            else
-            {
-                testHostProcessName = Path.Combine(targetFrameworkMoniker, "win7-x86", testHostProcessName);
-            }
-
+            testHostProcessName = Path.Combine("TestHost", testHostProcessName);
             testhostProcessPath = Path.Combine(currentWorkingDirectory, testHostProcessName);
-
-            System.Diagnostics.Trace.WriteLine($"[2]------------- Trying to find host process at: {testhostProcessPath}");
-        }
-
-        // Location \TestsHosts\net462\win7-x86\testhost.net48.x86.exe
-        if (!File.Exists(testhostProcessPath))
-        {
-            // "TestHost" is the name of the folder which contain Full CLR built testhost package assemblies.
-            var targetFrameworkMoniker = "net" + this._targetFramework.Name.Replace(".NETFramework,Version=v", string.Empty).Replace(".", string.Empty);
-            testHostProcessName = string.Format(this._architecture == Architecture.X86 ? X86TestHostProcessName : X64TestHostProcessName, $".{targetFrameworkMoniker}");
-
-            if (currentWorkingDirectory.Contains("TestsHosts") == false)
-            {
-                testHostProcessName = Path.Combine("TestsHosts", targetFrameworkMoniker, "win7-x86", testHostProcessName);
-            }
-            else
-            {
-                testHostProcessName = Path.Combine(targetFrameworkMoniker, "win7-x86", testHostProcessName);
-            }
-
-            testhostProcessPath = Path.Combine(currentWorkingDirectory, testHostProcessName);
-
-            System.Diagnostics.Trace.WriteLine($"[3]------------- Trying to find host process at: {testhostProcessPath}");
         }
 
         if (!Shared)
