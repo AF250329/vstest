@@ -7,12 +7,16 @@
   <PropertyGroup>
     <AssemblyName>Microsoft.TestPlatform.PlatformAbstractions</AssemblyName>
     <RootNamespace>Microsoft.TestPlatform.PlatformAbstractions</RootNamespace>
-    <TargetFrameworks>net45;net451;netcoreapp1.0;netcoreapp2.1;netstandard1.3;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net461;net45;net451;netcoreapp1.0;netcoreapp2.1;netstandard1.3;netstandard2.0</TargetFrameworks>
     <TargetFrameworks Condition="'$(OS)' == 'Windows_NT'">$(TargetFrameworks);uap10.0;netstandard1.0</TargetFrameworks>
     <TargetFrameworks Condition=" '$(DotNetBuildFromSource)' == 'true' ">net6.0</TargetFrameworks>
     <IsTestProject>false</IsTestProject>
     <!-- This causes a build error on netcoreapp1.0 -->
     <NoWarn Condition="'$(TargetFramework)' != 'netcoreapp1.0'">$(NoWarn);NU1605</NoWarn>
+    <RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
+    <RunAnalyzersDuringLiveAnalysis>False</RunAnalyzersDuringLiveAnalysis>
+    <EnforceCodeStyleInBuild>False</EnforceCodeStyleInBuild>
+    <EnableNETAnalyzers>False</EnableNETAnalyzers>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0'">
@@ -36,7 +40,7 @@
     <PackageReference Include="System.Net.Http" Version="$(SystemNetHttpVersion)" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' OR '$(TargetFramework)' == 'net45' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net451' OR '$(TargetFramework)' == 'net45' OR '$(TargetFramework)' == 'net461' ">
     <PackageReference Include="Microsoft.Internal.Dia.Interop" Version="$(TestPlatformMSDiaVersion)" />
 
     <Reference Include="System.Configuration" />
