@@ -118,8 +118,8 @@
         <note></note>
       </trans-unit>
       <trans-unit id="DeprecatedAdapterPath">
-        <source>Adapter lookup is being changed, please follow https://github.com/Microsoft/vstest-docs/blob/master/RFCs/0022-User-Specified-TestAdapter-Lookup.md#roadmap for more details.</source>
-        <target state="translated">Изменяется поиск адаптеров. Дополнительные сведения: https://github.com/Microsoft/vstest-docs/blob/master/RFCs/0022-User-Specified-TestAdapter-Lookup.md#roadmap.</target>
+        <source>Adapter lookup is being changed, please follow https://github.com/Microsoft/vstest-docs/blob/main/RFCs/0022-User-Specified-TestAdapter-Lookup.md#roadmap for more details.</source>
+        <target state="translated">Изменяется поиск адаптеров. Дополнительные сведения: https://github.com/Microsoft/vstest-docs/blob/main/RFCs/0022-User-Specified-TestAdapter-Lookup.md#roadmap.</target>
         <note></note>
       </trans-unit>
       <trans-unit id="NoTestsAvailableForGivenTestCaseFilter">
@@ -155,6 +155,26 @@
       <trans-unit id="ProxyIsAlreadyAvailable">
         <source>Proxy with id {0} is already available and cannot be re-enqueued.</source>
         <target state="translated">Прокси-сервер с идентификатором {0} уже доступен и не может быть повторно поставлен в очередь.</target>
+        <note></note>
+      </trans-unit>
+      <trans-unit id="NoTestHostProviderFound">
+        <source>No suitable test runtime provider found for this run.</source>
+        <target state="translated">Не найден подходящий поставщик среды выполнения теста для этого запуска.</target>
+        <note></note>
+      </trans-unit>
+      <trans-unit id="NoProxyMatchesDescription">
+        <source>The runsettings changed between the time when the test session was established and the time of the current run/discovery request.</source>
+        <target state="translated">Параметры runsettings изменились между временем начала тестового сеанса и временем текущего запроса на запуск или обнаружение.</target>
+        <note></note>
+      </trans-unit>
+      <trans-unit id="AttachmentOutputFormat">
+        <source>  {0}</source>
+        <target state="new">  {0}</target>
+        <note></note>
+      </trans-unit>
+      <trans-unit id="AttachmentsBanner">
+        <source>Attachments:</source>
+        <target state="new">Attachments:</target>
         <note></note>
       </trans-unit>
     </body>

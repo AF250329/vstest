@@ -118,8 +118,8 @@
         <note></note>
       </trans-unit>
       <trans-unit id="DeprecatedAdapterPath">
-        <source>Adapter lookup is being changed, please follow https://github.com/Microsoft/vstest-docs/blob/master/RFCs/0022-User-Specified-TestAdapter-Lookup.md#roadmap for more details.</source>
-        <target state="translated">适配器查找发生了变化，请转到 https://github.com/Microsoft/vstest-docs/blob/master/RFCs/0022-User-Specified-TestAdapter-Lookup.md#roadmap，了解详细信息。</target>
+        <source>Adapter lookup is being changed, please follow https://github.com/Microsoft/vstest-docs/blob/main/RFCs/0022-User-Specified-TestAdapter-Lookup.md#roadmap for more details.</source>
+        <target state="translated">适配器查找正在发生更改，请转到 https://github.com/Microsoft/vstest-docs/blob/main/RFCs/0022-User-Specified-TestAdapter-Lookup.md#roadmap 以了解详细信息。</target>
         <note></note>
       </trans-unit>
       <trans-unit id="NoTestsAvailableForGivenTestCaseFilter">
@@ -155,6 +155,26 @@
       <trans-unit id="ProxyIsAlreadyAvailable">
         <source>Proxy with id {0} is already available and cannot be re-enqueued.</source>
         <target state="translated">ID 为 {0} 的代理已可用，无法重新排队。</target>
+        <note></note>
+      </trans-unit>
+      <trans-unit id="NoTestHostProviderFound">
+        <source>No suitable test runtime provider found for this run.</source>
+        <target state="translated">对于此运行，未找到适合的测试运行时提供程序。</target>
+        <note></note>
+      </trans-unit>
+      <trans-unit id="NoProxyMatchesDescription">
+        <source>The runsettings changed between the time when the test session was established and the time of the current run/discovery request.</source>
+        <target state="translated">runsettings 在建立测试会话的时间和当前运行/发现请求的时间之间发生了更改。</target>
+        <note></note>
+      </trans-unit>
+      <trans-unit id="AttachmentOutputFormat">
+        <source>  {0}</source>
+        <target state="new">  {0}</target>
+        <note></note>
+      </trans-unit>
+      <trans-unit id="AttachmentsBanner">
+        <source>Attachments:</source>
+        <target state="new">Attachments:</target>
         <note></note>
       </trans-unit>
     </body>
