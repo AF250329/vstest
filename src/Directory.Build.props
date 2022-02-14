@@ -1,6 +1,0 @@
-<Project>
-    <PropertyGroup>
-        <AssemblyVersion>16.10.1</AssemblyVersion>
-		<Deterministic>false</Deterministic>
-    </PropertyGroup>
-</Project>
