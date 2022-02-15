@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 
 using CommandLineResources = Microsoft.VisualStudio.TestPlatform.CommandLine.Resources.Resources;
 
@@ -74,17 +75,21 @@ public class FilePatternParser
         // Split the given wild card into search directory and pattern to be searched.
         var splitPattern = SplitFilePatternOnWildCard(filePattern);
         EqtTrace.Info($"FilePatternParser: Matching file pattern '{splitPattern.Item2}' within directory '{splitPattern.Item1}'");
+        System.Diagnostics.Debug.WriteLine(string.Format($"FilePatternParser: Matching file pattern '{splitPattern.Item2}' within directory '{splitPattern.Item1}'"));
 
         _matcher.AddInclude(splitPattern.Item2);
 
-        // Execute the given pattern in the search directory.
-        var matches = _matcher.Execute(new DirectoryInfoWrapper(new DirectoryInfo(splitPattern.Item1)));
+        // This line always throw - I don't know why
+        // // Execute the given pattern in the search directory.
+        // var matches = _matcher.Execute(new DirectoryInfoWrapper(new DirectoryInfo(splitPattern.Item1)));
+        //
+        // // Add all the files to the list of matching files.
+        // foreach (var match in matches.Files)
+        // {
+        //     matchingFiles.Add(Path.Combine(splitPattern.Item1, match.Path));
+        // }
 
-        // Add all the files to the list of matching files.
-        foreach (var match in matches.Files)
-        {
-            matchingFiles.Add(Path.Combine(splitPattern.Item1, match.Path));
-        }
+        matchingFiles = Directory.GetFiles(splitPattern.Item1, splitPattern.Item2).ToList();
 
         return matchingFiles;
     }
