@@ -132,10 +132,6 @@ public class DefaultTestHostManager : ITestRuntimeProvider2
             TestRunnerConnectionInfo connectionInfo)
     {
 
-        // System.Diagnostics.Debugger.Launch();
-        // System.Diagnostics.Debugger.Break();
-
-
         string testHostProcessName;
         if (_targetFramework.Name.StartsWith(".NETFramework,Version=v"))
         {

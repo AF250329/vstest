@@ -170,8 +170,6 @@ public class ProxyOperationManager
     {
         CancellationTokenSource.Token.ThrowTestPlatformExceptionIfCancellationRequested();
 
-        //System.Diagnostics.Debugger.Launch(); 
-        //System.Diagnostics.Debugger.Break();
         if (_initialized)
         {
             return true;
