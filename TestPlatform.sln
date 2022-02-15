@@ -95,7 +95,20 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E344E0A2-7715-4C7F-BAF7-D64EA94CB19B}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		azure-pipelines.yml = azure-pipelines.yml
+		build.cmd = build.cmd
+		build.sh = build.sh
+		CODE_OF_CONDUCT.md = CODE_OF_CONDUCT.md
+		CODEOWNERS = CODEOWNERS
+		CONTRIBUTING.md = CONTRIBUTING.md
+		global.json = global.json
+		LICENSE = LICENSE
 		Nuget.config = Nuget.config
+		README.md = README.md
+		test.cmd = test.cmd
+		test.sh = test.sh
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.TestPlatform.AcceptanceTests", "test\Microsoft.TestPlatform.AcceptanceTests\Microsoft.TestPlatform.AcceptanceTests.csproj", "{DD9382B5-5EC4-4B3D-BEB7-95423731AE29}"
@@ -170,6 +183,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AttachVS", "src\AttachVS\At
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "playground", "playground", "{6CE2F530-582B-4695-A209-41065E103426}"
 	ProjectSection(SolutionItems) = preProject
+		OFFICIAL_README.md = OFFICIAL_README.md
 		README.md = README.md
 	EndProjectSection
 EndProject
