@@ -73,13 +73,13 @@ if([string]::IsNullOrWhiteSpace($Version))
 #
 # Dotnet configuration
 #
-# Disable first run since we want to control all package sources 
+# Disable first run since we want to control all package sources
 Write-Verbose "Setup dotnet configuration."
-$env:DOTNET_SKIP_FIRST_TIME_EXPERIENCE = 1 
+$env:DOTNET_SKIP_FIRST_TIME_EXPERIENCE = 1
 # Dotnet build doesn't support --packages yet. See https://github.com/dotnet/cli/issues/2712
 $env:NUGET_PACKAGES = $env:TP_PACKAGES_DIR
 $env:NUGET_EXE_Version = "5.8.1"
-$env:DOTNET_CLI_VERSION = "6.0.100-preview.1.21103.13"
+$env:DOTNET_CLI_VERSION = "6.0.102"
 # $env:DOTNET_RUNTIME_VERSION = "LATEST"
 $env:VSWHERE_VERSION = "2.0.2"
 $env:MSBUILD_VERSION = "15.0"
@@ -1161,6 +1161,6 @@ if ($Force -or $Steps -contains "PrepareAcceptanceTests") {
     Invoke-TestAssetsBuild
     Publish-Tests
 }
- 
+
 Write-Log "Build complete. {$(Get-ElapsedTime($timer))}"
 if ($Script:ScriptFailed) { Exit 1 } else { Exit 0 }
