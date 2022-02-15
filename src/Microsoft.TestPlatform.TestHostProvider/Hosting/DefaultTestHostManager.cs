@@ -131,6 +131,11 @@ public class DefaultTestHostManager : ITestRuntimeProvider2
             IDictionary<string, string> environmentVariables,
             TestRunnerConnectionInfo connectionInfo)
     {
+
+        // System.Diagnostics.Debugger.Launch();
+        // System.Diagnostics.Debugger.Break();
+
+
         string testHostProcessName;
         if (_targetFramework.Name.StartsWith(".NETFramework,Version=v"))
         {
@@ -150,7 +155,8 @@ public class DefaultTestHostManager : ITestRuntimeProvider2
             testHostProcessName = string.Format(_architecture == Architecture.X86 ? X86TestHostProcessName : X64TestHostProcessName, string.Empty);
         }
 
-        var currentWorkingDirectory = Path.Combine(Path.GetDirectoryName(typeof(DefaultTestHostManager).GetTypeInfo().Assembly.Location), "..//");
+        // var currentWorkingDirectory = Path.Combine(Path.GetDirectoryName(typeof(DefaultTestHostManager).GetTypeInfo().Assembly.Location), "..//");
+        var currentWorkingDirectory = Path.GetDirectoryName(typeof(DefaultTestHostManager).GetTypeInfo().Assembly.Location);
         var argumentsString = " " + connectionInfo.ToCommandLineOptions();
 
         // check in current location for testhost exe
