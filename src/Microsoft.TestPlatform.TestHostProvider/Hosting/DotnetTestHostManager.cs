@@ -202,8 +202,8 @@ public class DotnetTestHostManager : ITestRuntimeProvider2
         IDictionary<string, string> environmentVariables,
         TestRunnerConnectionInfo connectionInfo)
     {
-        //System.Diagnostics.Debugger.Launch();
-        //System.Diagnostics.Debugger.Break();
+        // System.Diagnostics.Debugger.Launch();
+        // System.Diagnostics.Debugger.Break();
 
         var startInfo = new TestProcessStartInfo();
 
