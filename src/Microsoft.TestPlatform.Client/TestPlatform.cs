@@ -352,51 +352,51 @@ public class TestPlatform : ITestPlatform
     }
 
     private void SubscribeLogger(ITestLoggerManager currentLoggerManager, ITestLoggerManager vsTestLoggerManager)
+    {
+        if (vsTestLoggerManager == null)
         {
-            if (vsTestLoggerManager == null)
-            {
-                System.Diagnostics.Trace.WriteLine("Here");
-                return;
-            }
+            System.Diagnostics.Trace.WriteLine("Here");
+            return;
+        }
 
             ((TestLoggerManager)currentLoggerManager).loggerEvents.DiscoveredTests += (o, e) =>
             {
                 vsTestLoggerManager.HandleDiscoveredTests(e);
             };
 
-            ((TestLoggerManager)currentLoggerManager).loggerEvents.DiscoveryComplete += (o, e) =>
-            {
-                vsTestLoggerManager.HandleDiscoveryComplete(e);
-            };
+        ((TestLoggerManager)currentLoggerManager).loggerEvents.DiscoveryComplete += (o, e) =>
+        {
+            vsTestLoggerManager.HandleDiscoveryComplete(e);
+        };
 
-            ((TestLoggerManager)currentLoggerManager).loggerEvents.DiscoveryMessage += (o, e) =>
-            {
-                vsTestLoggerManager.HandleDiscoveryMessage(e);
-            };
+        ((TestLoggerManager)currentLoggerManager).loggerEvents.DiscoveryMessage += (o, e) =>
+        {
+            vsTestLoggerManager.HandleDiscoveryMessage(e);
+        };
 
-            ((TestLoggerManager)currentLoggerManager).loggerEvents.DiscoveryStart += (o, e) =>
-            {
-                vsTestLoggerManager.HandleDiscoveryStart(e);
-            };
+        ((TestLoggerManager)currentLoggerManager).loggerEvents.DiscoveryStart += (o, e) =>
+        {
+            vsTestLoggerManager.HandleDiscoveryStart(e);
+        };
 
-            //((TestLoggerManager)currentLoggerManager).loggerEvents.TestResult += (o, e) =>
-            //{
-            //    vsTestLoggerManager.HandleTestRunComplete(e);
-            //};
+        //((TestLoggerManager)currentLoggerManager).loggerEvents.TestResult += (o, e) =>
+        //{
+        //    vsTestLoggerManager.HandleTestRunComplete(e);
+        //};
 
-            ((TestLoggerManager)currentLoggerManager).loggerEvents.TestRunComplete += (o, e) =>
-            {
-                vsTestLoggerManager.HandleTestRunComplete(e);
-            };
+        ((TestLoggerManager)currentLoggerManager).loggerEvents.TestRunComplete += (o, e) =>
+        {
+            vsTestLoggerManager.HandleTestRunComplete(e);
+        };
 
-            ((TestLoggerManager)currentLoggerManager).loggerEvents.TestRunMessage += (o, e) =>
-            {
-                vsTestLoggerManager.HandleTestRunMessage(e);
-            };
+        ((TestLoggerManager)currentLoggerManager).loggerEvents.TestRunMessage += (o, e) =>
+        {
+            vsTestLoggerManager.HandleTestRunMessage(e);
+        };
 
-            ((TestLoggerManager)currentLoggerManager).loggerEvents.TestRunStart += (o, e) =>
-            {
-                vsTestLoggerManager.HandleTestRunStart(e);
-            };
-        }
+        ((TestLoggerManager)currentLoggerManager).loggerEvents.TestRunStart += (o, e) =>
+        {
+            vsTestLoggerManager.HandleTestRunStart(e);
+        };
+    }
 }

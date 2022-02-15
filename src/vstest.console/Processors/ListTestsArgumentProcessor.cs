@@ -216,13 +216,13 @@ internal class ListTestsArgumentExecutor : IArgumentExecutor
 
         var runSettings = _runSettingsManager.ActiveRunSettings.SettingsXml;
 
-            _discoveryEventsRegistrar.ObjectWriter = objectWriter;
+        _discoveryEventsRegistrar.ObjectWriter = objectWriter;
 
-            _testRequestManager.TestPlatformEventSourceInstance = testPlatformEventSource;
+        _testRequestManager.TestPlatformEventSourceInstance = testPlatformEventSource;
 
-            _testRequestManager.DiscoverTests(
-                new DiscoveryRequestPayload() { Sources = _commandLineOptions.Sources, RunSettings = runSettings },
-                _discoveryEventsRegistrar, Constants.DefaultProtocolConfig);
+        _testRequestManager.DiscoverTests(
+            new DiscoveryRequestPayload() { Sources = _commandLineOptions.Sources, RunSettings = runSettings },
+            _discoveryEventsRegistrar, Constants.DefaultProtocolConfig);
 
         return ArgumentProcessorResult.Success;
     }
@@ -238,12 +238,12 @@ internal class ListTestsArgumentExecutor : IArgumentExecutor
             _output = output;
         }
 
-            public IObjectWriter ObjectWriter { get; set; }
+        public IObjectWriter ObjectWriter { get; set; }
 
-            public void LogWarning(string message)
-            {
-                ConsoleLogger.RaiseTestRunWarning(message);
-            }
+        public void LogWarning(string message)
+        {
+            ConsoleLogger.RaiseTestRunWarning(message);
+        }
 
         public void RegisterDiscoveryEvents(IDiscoveryRequest discoveryRequest)
         {

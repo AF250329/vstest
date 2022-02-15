@@ -78,11 +78,11 @@ internal class Executor
     /// </summary>
     private IOutput Output { get; set; }
 
-        public IObjectWriter ObjectWriter { get; set; }
+    public IObjectWriter ObjectWriter { get; set; }
 
-        public ITestLoggerManager VStestLogManager { get; set; }
+    public ITestLoggerManager VStestLogManager { get; set; }
 
-        #endregion
+    #endregion
 
     #region Methods
 
@@ -349,27 +349,27 @@ internal class Executor
         }
     }
 
-        /// <summary>
-        /// Executes the argument processor
-        /// </summary>
-        /// <param name="processor">Argument processor to execute.</param>
-        /// <param name="exitCode">Exit status of Argument processor</param>
-        /// <returns> true if continue execution, false otherwise.</returns>
-        private bool ExecuteArgumentProcessor(IArgumentProcessor processor, ref int exitCode)
+    /// <summary>
+    /// Executes the argument processor
+    /// </summary>
+    /// <param name="processor">Argument processor to execute.</param>
+    /// <param name="exitCode">Exit status of Argument processor</param>
+    /// <returns> true if continue execution, false otherwise.</returns>
+    private bool ExecuteArgumentProcessor(IArgumentProcessor processor, ref int exitCode)
+    {
+        var continueExecution = true;
+        ArgumentProcessorResult result;
+        try
         {
-            var continueExecution = true;
-            ArgumentProcessorResult result;
-            try
+            result = processor.Executor.Value.Execute(ObjectWriter, _testPlatformEventSource, VStestLogManager);
+        }
+        catch (Exception ex)
+        {
+            if (ex is CommandLineException || ex is TestPlatformException || ex is SettingsException || ex is InvalidOperationException)
             {
-                result = processor.Executor.Value.Execute();
-            }
-            catch (Exception ex)
-            {
-                if (ex is CommandLineException || ex is TestPlatformException || ex is SettingsException || ex is InvalidOperationException)
-                {
-                    EqtTrace.Error("ExecuteArgumentProcessor: failed to execute argument process: {0}", ex);
-                    this.Output.Error(false, ex.Message);
-                    result = ArgumentProcessorResult.Fail;
+                EqtTrace.Error("ExecuteArgumentProcessor: failed to execute argument process: {0}", ex);
+                this.Output.Error(false, ex.Message);
+                result = ArgumentProcessorResult.Fail;
 
                 // Send inner exception only when its message is different to avoid duplicate.
                 if (ex is TestPlatformException &&

@@ -141,11 +141,11 @@ internal class TestRequestManager : ITestRequestManager
     {
         get
         {
-            return ((Microsoft.VisualStudio.TestPlatform.Client.TestPlatform) _testPlatform).VStestLoggerManager;
+            return ((Microsoft.VisualStudio.TestPlatform.Client.TestPlatform)_testPlatform).VStestLoggerManager;
         }
         set
         {
-            ((Microsoft.VisualStudio.TestPlatform.Client.TestPlatform) _testPlatform).VStestLoggerManager = value;
+            ((Microsoft.VisualStudio.TestPlatform.Client.TestPlatform)_testPlatform).VStestLoggerManager = value;
         }
     }
 
