@@ -2,7 +2,7 @@
 # For ignoring files that appear under a specific folder, you should
 # usually add a .gitignore file to that specific folder.
 # This file is reserved for common file patterns that should be
-# ignored everywhere. 
+# ignored everywhere.
 ############################################################################
 
 ## Ignore Visual Studio temporary files, build results, and
@@ -348,3 +348,7 @@ src/vstest.console/Resources/xlf/Resources.ru.xlf
 src/vstest.console/Resources/xlf/Resources.tr.xlf
 src/vstest.console/Resources/xlf/Resources.zh-Hans.xlf
 src/vstest.console/Resources/xlf/Resources.zh-Hant.xlf
+
+**/package
+**/packages
+**/artifacts
