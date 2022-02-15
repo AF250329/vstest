@@ -7,7 +7,7 @@
   <Import Project="$(TestPlatformRoot)scripts/build/TestPlatform.Settings.targets" />
   <PropertyGroup>
     <AssemblyName>vstest.console</AssemblyName>
-    <TargetFrameworks>netcoreapp2.1;net451;net461</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.1;net451</TargetFrameworks>
     <TargetFrameworks Condition=" '$(DotNetBuildFromSource)' == 'true' ">net6.0</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <IsTestProject>false</IsTestProject>
@@ -20,9 +20,6 @@
     <RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net451'">
-    <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net461'">
     <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
   </PropertyGroup>
   <ItemGroup>
