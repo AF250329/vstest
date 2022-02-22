@@ -177,6 +177,8 @@ public class InferRunSettingsHelper
         }
 
         EqtTrace.Verbose("Using effective platform:{0} effective framework:{1}", architecture, framework);
+        System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Utilities::InferRunSettingsHelper] Using effective platform: {architecture} effective framework:{framework}");
+
 
         // check if platform is compatible with current system architecture.
         VerifyCompatibilityWithOsArchitecture(architecture);
@@ -611,7 +613,7 @@ public class InferRunSettingsHelper
         {
             var value = (Architecture)Enum.Parse(typeof(Architecture), xml, true);
 
-            return Enum.IsDefined(typeof(Architecture), value) && value != Architecture.Default && value != Architecture.AnyCPU;
+            return Enum.IsDefined(typeof(Architecture), value) && value != Architecture.Default;    // && value != Architecture.AnyCPU;
         };
 
         return XmlUtilities.IsValidNodeXmlValue(platformXml, validator);

@@ -50,7 +50,7 @@ internal class TestLoggerExtensionManager : TestExtensionManager<ITestLogger, IT
     /// </returns>
     public static TestLoggerExtensionManager Create(IMessageLogger messageLogger)
     {
-
+        // Going to search for assembly that implements: ITestLogger interface
         TestPluginManager.Instance.GetSpecificTestExtensions<TestLoggerPluginInformation, ITestLogger, ITestLoggerCapabilities, TestLoggerMetadata>(
             TestPlatformConstants.TestLoggerEndsWithPattern,
             out IEnumerable<LazyExtension<ITestLogger, Dictionary<string, object>>> unfilteredTestExtensions,

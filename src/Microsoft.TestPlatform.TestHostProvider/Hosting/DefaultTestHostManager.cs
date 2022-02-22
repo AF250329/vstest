@@ -173,6 +173,7 @@ public class DefaultTestHostManager : ITestRuntimeProvider2
         }
 
         EqtTrace.Verbose("DefaultTestHostmanager: Full path of {0} is {1}", testHostProcessName, testhostProcessPath);
+        System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Hosting.DefaultTestHostManager::GetTestHostProcessStartInfo] Full path of {testHostProcessName} is {testhostProcessPath}");
 
         var launcherPath = testhostProcessPath;
         if (!_environment.OperatingSystem.Equals(PlatformOperatingSystem.Windows) &&
@@ -187,6 +188,8 @@ public class DefaultTestHostManager : ITestRuntimeProvider2
         // For VS - this becomes the solution directory for example
         // "TestResults" directory will be created at "current directory" of test host
         var processWorkingDirectory = Directory.GetCurrentDirectory();
+
+        System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Hosting.DefaultTestHostManager::GetTestHostProcessStartInfo] Going to start process: File: {launcherPath} with arguments: {argumentsString} and working directory: {processWorkingDirectory}"); 
 
         return new TestProcessStartInfo
         {
@@ -391,6 +394,8 @@ public class DefaultTestHostManager : ITestRuntimeProvider2
                 && _customTestHostLauncher is ITestHostLauncher2))
         {
             EqtTrace.Verbose("DefaultTestHostManager: Starting process '{0}' with command line '{1}'", testHostStartInfo.FileName, testHostStartInfo.Arguments);
+            System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Hosting.DefaultTestHostManager::LaunchHost] Starting process: {testHostStartInfo.FileName} with arguments: {testHostStartInfo.Arguments}");
+
             cancellationToken.ThrowIfCancellationRequested();
             _testHostProcess = _processHelper.LaunchProcess(
                 testHostStartInfo.FileName,

@@ -51,6 +51,7 @@ internal class DataCollectorExtensionManager : TestExtensionManager<DataCollecto
     /// </returns>
     public static DataCollectorExtensionManager Create(IMessageLogger messageLogger)
     {
+        // Going to search for assembly that implements: DataCollector interface
         TestPluginManager.Instance.GetSpecificTestExtensions<DataCollectorConfig, DataCollector, IDataCollectorCapabilities, DataCollectorMetadata>(
             TestPlatformConstants.DataCollectorEndsWithPattern,
             out var unfilteredTestExtensions,

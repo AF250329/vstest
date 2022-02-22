@@ -46,6 +46,8 @@ internal class InferHelper
                         arch = Architecture.AnyCPU;
                     }
                     EqtTrace.Info("Determined platform for source '{0}' is '{1}'", source, arch);
+                    System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CommandLineUtilities.InferHelper::AutoDetectFramework] Detected platform: {arch} for source: {source}");
+
                     sourcePlatforms[source] = arch;
 
                     if (Architecture.AnyCPU.Equals(arch))
@@ -79,6 +81,7 @@ internal class InferHelper
         }
 
         EqtTrace.Info("Determined platform for all sources: {0}", architecture);
+        System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CommandLineUtilities.InferHelper::AutoDetectFramework] Detected platform: {architecture} for all sources");
 
         return architecture;
     }
@@ -110,6 +113,7 @@ internal class InferHelper
         }
 
         EqtTrace.Info("Determined framework for all sources: {0}", framework);
+        System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CommandLineUtilities.InferHelper::AutoDetectFramework] Detected framework for all sources: {framework}");
 
         return framework;
     }

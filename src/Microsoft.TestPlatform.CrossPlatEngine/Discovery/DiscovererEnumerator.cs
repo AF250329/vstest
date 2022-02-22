@@ -213,6 +213,8 @@ internal class DiscovererEnumerator
                 "DiscovererEnumerator.DiscoverTestsFromSingleDiscoverer: Loading tests for {0}",
                 discoverer.Value.GetType().FullName);
 
+            System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Discovery::DiscoverTestsFromSingleDiscoverer] Loading tests for {discoverer.Value.GetType().FullName}");
+
             if (discoverer.Metadata.DefaultExecutorUri == null)
             {
                 throw new Exception($@"DefaultExecutorUri is null, did you decorate the discoverer class with [DefaultExecutorUri()] attribute? For example [DefaultExecutorUri(""executor://example.testadapter"")].");

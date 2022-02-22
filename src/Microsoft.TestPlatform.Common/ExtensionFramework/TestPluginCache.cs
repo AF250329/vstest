@@ -152,15 +152,20 @@ public class TestPluginCache
         try
         {
             EqtTrace.Verbose("TestPluginCache.DiscoverTestExtensions: Discovering the extensions using extension path.");
+            System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework::TestPluginCache] Discovering the extensions using extension path.");
+
 
             // Combine all the possible extensions - both default and additional.
             var allExtensionPaths = GetExtensionPaths(endsWithPattern);
 
-            EqtTrace.Verbose(
-                "TestPluginCache.DiscoverTestExtensions: Discovering the extensions using allExtensionPaths: {0}", string.Join(Environment.NewLine, allExtensionPaths));
+            EqtTrace.Verbose("TestPluginCache.DiscoverTestExtensions: Discovering the extensions using allExtensionPaths: {0}", string.Join(Environment.NewLine, allExtensionPaths));
+
+            System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework::TestPluginCache] Found extensions list: {string.Join(Environment.NewLine, allExtensionPaths)}");
 
             // Discover the test extensions from candidate assemblies.
             pluginInfos = GetTestExtensions<TPluginInfo, TExtension>(allExtensionPaths);
+
+            System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework::TestPluginCache] Detected: {pluginInfos.Count} plugins");
 
             if (TestExtensions == null)
             {
@@ -483,6 +488,11 @@ public class TestPluginCache
     {
         IList<string> resolutionPaths = string.IsNullOrEmpty(extensionAssembly) ? GetDefaultResolutionPaths() : GetResolutionPaths(extensionAssembly);
 
+        foreach(var item in resolutionPaths)
+        {
+            System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework::TestPluginCache] Going to search for assembly at folder: {item}");
+        }
+
         // Add assembly resolver which can resolve the extensions from the specified directory.
         if (_assemblyResolver == null)
         {
@@ -536,8 +546,8 @@ public class TestPluginCache
     /// </summary>
     private void LogExtensions()
     {
-        if (EqtTrace.IsVerboseEnabled)
-        {
+        //if (EqtTrace.IsVerboseEnabled)
+        //{
             var discoverers = TestExtensions.TestDiscoverers != null ? string.Join(",", TestExtensions.TestDiscoverers.Keys.ToArray()) : null;
             EqtTrace.Verbose("TestPluginCache: Discoverers are '{0}'.", discoverers);
 
@@ -558,7 +568,7 @@ public class TestPluginCache
 
             var dataCollectors = TestExtensions.DataCollectors != null ? string.Join(",", TestExtensions.DataCollectors.Keys.ToArray()) : null;
             EqtTrace.Verbose("TestPluginCache: DataCollectors are '{0}'.", dataCollectors);
-        }
+        //}
     }
 
     #endregion

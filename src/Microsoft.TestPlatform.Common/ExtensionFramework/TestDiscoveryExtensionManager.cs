@@ -75,7 +75,7 @@ internal class TestDiscoveryExtensionManager
     {
         if (s_testDiscoveryExtensionManager == null)
         {
-
+            // Going to search for assembly that implements: ITestDiscoverer interface
             TestPluginManager.Instance
                 .GetSpecificTestExtensions<TestDiscovererPluginInformation, ITestDiscoverer, ITestDiscovererCapabilities, TestDiscovererMetadata>(
                     TestPlatformConstants.TestAdapterEndsWithPattern,
@@ -128,6 +128,7 @@ internal class TestDiscoveryExtensionManager
             {
                 // discoverer.value below is what initializes the extension types and hence is not under a EqtTrace.IsVerboseEnabled check.
                 EqtTrace.Verbose("TestDiscoveryManager: LoadExtensions: Created discoverer {0}", discoverer.Value);
+                System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.TestDiscoveryExtensionManager::LoadAndInitializeAllExtensions] Created discoverer {discoverer.Value}");
             }
         }
         catch (Exception ex)

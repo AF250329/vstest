@@ -28,12 +28,12 @@ public static class EqtTrace
 #if NETFRAMEWORK
     public static void SetupRemoteEqtTraceListeners(AppDomain childDomain)
     {
-        TraceImpl.SetupRemoteEqtTraceListeners(childDomain);
+        // TraceImpl.SetupRemoteEqtTraceListeners(childDomain);
     }
 
     public static void SetupListener(TraceListener listener)
     {
-        TraceImpl.SetupListener(listener);
+        // TraceImpl.SetupListener(listener);
     }
 
     public static TraceLevel TraceLevel

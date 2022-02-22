@@ -78,6 +78,8 @@ internal class TestPluginDiscoverer
 
         GetTestExtensionsFromFiles<TPluginInfo, TExtension>(extensionPaths.ToArray(), pluginInfos);
 
+        System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.TestPluginDiscoverer::GetTestExtensionsInformation] Detected {pluginInfos.Count} plugins");
+
         return pluginInfos;
     }
 
@@ -118,6 +120,8 @@ internal class TestPluginDiscoverer
         // Scan each of the files for data extensions.
         foreach (var file in files)
         {
+            System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.TestPluginDiscoverer::GetTestExtensionsFromFiles] Scanning file {file}");
+
             if (UnloadableFiles.Contains(file))
             {
                 continue;
@@ -127,14 +131,22 @@ internal class TestPluginDiscoverer
                 Assembly assembly = null;
                 var assemblyName = Path.GetFileNameWithoutExtension(file);
                 assembly = Assembly.Load(new AssemblyName(assemblyName));
+
+                System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.TestPluginDiscoverer::GetTestExtensionsFromFiles] Assembly {assemblyName} loaded"); 
+
                 if (assembly != null)
                 {
                     GetTestExtensionsFromAssembly<TPluginInfo, TExtension>(assembly, pluginInfos, file);
+
+                    System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.TestPluginDiscoverer::GetTestExtensionsFromFiles] Found {pluginInfos.Count} types in assembly: {assemblyName}");
                 }
             }
             catch (FileLoadException e)
             {
                 EqtTrace.Warning("TestPluginDiscoverer-FileLoadException: Failed to load extensions from file '{0}'.  Skipping test extension scan for this file.  Error: {1}", file, e);
+
+                System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.TestPluginDiscoverer::GetTestExtensionsFromFiles] (1) Exception occurred while trying to load assembly: {file}");
+
                 string fileLoadErrorMessage = string.Format(CultureInfo.CurrentUICulture, CommonResources.FailedToLoadAdapaterFile, file);
                 TestSessionMessageLogger.Instance.SendMessage(TestMessageLevel.Warning, fileLoadErrorMessage);
                 UnloadableFiles.Add(file);
@@ -142,6 +154,8 @@ internal class TestPluginDiscoverer
             catch (Exception e)
             {
                 EqtTrace.Warning("TestPluginDiscoverer: Failed to load extensions from file '{0}'.  Skipping test extension scan for this file.  Error: {1}", file, e);
+
+                System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.TestPluginDiscoverer::GetTestExtensionsFromFiles] (2) Exception occurred while trying to load assembly: {file}");
             }
         }
     }
@@ -171,6 +185,8 @@ internal class TestPluginDiscoverer
             if (discoveredExtensions?.Length > 0)
             {
                 types.AddRange(discoveredExtensions);
+
+                System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.TestPluginDiscoverer::GetTestExtensionsFromAssembly] Added {discoveredExtensions.Count()} types from assembly {filePath} that has special attribute TestExtensionTypesV2Attribute");
             }
         }
         catch (Exception e)
@@ -180,10 +196,13 @@ internal class TestPluginDiscoverer
 
         try
         {
+            // Load types from assemblies that has special [assembly: TestExtensionTypes(xxx)] attribute (like BlameLogger)
             var typesToLoad = TypesToLoadUtilities.GetTypesToLoad(assembly);
             if (typesToLoad?.Any() == true)
             {
                 types.AddRange(typesToLoad);
+
+                System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.TestPluginDiscoverer::GetTestExtensionsFromAssembly] Added {typesToLoad.Count()} special types");
             }
 
             if (!types.Any())
@@ -194,6 +213,8 @@ internal class TestPluginDiscoverer
         catch (ReflectionTypeLoadException e)
         {
             EqtTrace.Warning("TestPluginDiscoverer: Failed to get types from assembly '{0}'. Error: {1}", assembly.FullName, e.ToString());
+            System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.TestPluginDiscoverer::GetTestExtensionsFromAssembly] Failed to get types from assembly '{assembly.FullName}'");
+
 
             if (e.Types?.Length > 0)
             {
@@ -211,6 +232,8 @@ internal class TestPluginDiscoverer
 
         if (types != null && types.Any())
         {
+            System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.TestPluginDiscoverer::GetTestExtensionsFromAssembly] Loaded {types.Count} type from assembly: {assembly.FullName}");
+
             foreach (var type in types)
             {
                 GetTestExtensionFromType(type, extension, pluginInfos, filePath);
@@ -246,6 +269,8 @@ internal class TestPluginDiscoverer
             var pluginInfo = (TPluginInfo)rawPluginInfo;
             pluginInfo.FilePath = filePath;
 
+            System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.TestPluginDiscoverer::GetTestExtensionFromType] Found plugin at: {filePath}");
+
             if (pluginInfo == null || pluginInfo.IdentifierData == null)
             {
                 EqtTrace.Error(
@@ -258,12 +283,17 @@ internal class TestPluginDiscoverer
                 EqtTrace.Warning(
                     "GetTestExtensionFromType: Discovered multiple test extensions with identifier data '{0}' and type '{1}' inside file '{2}'; keeping the first one '{3}'.",
                     pluginInfo.IdentifierData, pluginInfo.AssemblyQualifiedName, filePath, extensionCollection[pluginInfo.IdentifierData].AssemblyQualifiedName);
+
+                System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.TestPluginDiscoverer::GetTestExtensionFromType] Discovered multiple test extensions with identifier data '{pluginInfo.IdentifierData}' and type '{pluginInfo.AssemblyQualifiedName}' inside file '{filePath}'; keeping the first one '{extensionCollection[pluginInfo.IdentifierData].AssemblyQualifiedName}'.");
+
             }
             else
             {
                 extensionCollection.Add(pluginInfo.IdentifierData, pluginInfo);
                 EqtTrace.Info("GetTestExtensionFromType: Register extension with identifier data '{0}' and type '{1}' inside file '{2}'",
                     pluginInfo.IdentifierData, pluginInfo.AssemblyQualifiedName, filePath);
+
+                System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.TestPluginDiscoverer::GetTestExtensionFromType] Register extension with identifier data '{pluginInfo.IdentifierData}' and type '{pluginInfo.AssemblyQualifiedName}' inside file '{filePath}'");
             }
         }
     }

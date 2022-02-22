@@ -69,6 +69,7 @@ public class SocketServer : ICommunicationEndPoint
 
         _endPoint = _tcpListener.LocalEndpoint.ToString();
         EqtTrace.Info("SocketServer.Start: Listening on endpoint : {0}", _endPoint);
+        System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.SocketServer::Start] Listening on endpoint : {_endPoint}");
 
         // Serves a single client at the moment. An error in connection, or message loop just
         // terminates the entire server.
@@ -92,6 +93,8 @@ public class SocketServer : ICommunicationEndPoint
         _tcpClient = client;
         _tcpClient.Client.NoDelay = true;
 
+        System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.SocketServer::OnClientConnected] Client {client.Client.RemoteEndPoint} connected");
+
         if (Connected != null)
         {
             _channel = _channelFactory(_tcpClient.GetStream());
@@ -107,6 +110,7 @@ public class SocketServer : ICommunicationEndPoint
     private void Stop(Exception error)
     {
         EqtTrace.Info("SocketServer.PrivateStop: Stopping server endPoint: {0} error: {1}", _endPoint, error);
+        System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.SocketServer::Stop] Stopping server endPoint: {_endPoint} error: {error}");
 
         if (!_stopped)
         {

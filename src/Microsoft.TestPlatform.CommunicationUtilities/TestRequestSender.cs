@@ -138,6 +138,8 @@ public class TestRequestSender : ITestRequestSender
     {
         EqtTrace.Verbose("TestRequestSender.InitializeCommunication: initialize communication. ");
 
+        System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.TestRequestSender::InitializeCommunication] initialize communication");
+
         // this.clientExitCancellationSource = new CancellationTokenSource();
         _clientExitErrorMessage = string.Empty;
         _communicationEndpoint.Connected += (sender, args) =>

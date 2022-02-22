@@ -202,6 +202,8 @@ internal class TestRequestManager : ITestRequestManager
             runsettings = updatedRunsettings;
         }
 
+        System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers.TestRequestManager::DiscoverTests] Final settings: {runsettings}");
+
         var runConfiguration = XmlRunSettingsUtilities.GetRunConfigurationNode(runsettings);
         var batchSize = runConfiguration.BatchSize;
         var testCaseFilterFromRunsettings = runConfiguration.TestCaseFilter;
@@ -664,6 +666,8 @@ internal class TestRequestManager : ITestRequestManager
             // Choose default architecture based on the framework.
             // For .NET core, the default platform architecture should be based on the process.
             Architecture defaultArchitecture = Architecture.X86;
+            // Architecture defaultArchitecture = Architecture.AnyCPU;
+
             if (chosenFramework.Name.IndexOf("netstandard", StringComparison.OrdinalIgnoreCase) >= 0
                 || chosenFramework.Name.IndexOf("netcoreapp", StringComparison.OrdinalIgnoreCase) >= 0
                 // This is a special case for 1 version of Nuget.Frameworks that was shipped with using identifier NET5 instead of NETCoreApp5 for .NET 5.

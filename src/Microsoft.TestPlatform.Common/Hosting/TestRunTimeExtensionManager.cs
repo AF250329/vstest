@@ -52,6 +52,8 @@ internal class TestRuntimeExtensionManager : TestExtensionManager<ITestRuntimePr
     /// </returns>
     public static TestRuntimeExtensionManager Create(IMessageLogger messageLogger)
     {
+        // Going to search for assembly that implements: ITestRuntimeProvider interface
+        // In our case this is: Microsoft.TestPlatform.TestHostRuntimeProvider.dll that should be located in root folder (bin\Debug) or \Extensions folder
         TestPluginManager.Instance.GetSpecificTestExtensions<TestRuntimePluginInformation, ITestRuntimeProvider, ITestRuntimeCapabilities, TestRuntimeMetadata>(
             TestPlatformConstants.RunTimeEndsWithPattern,
             out IEnumerable<LazyExtension<ITestRuntimeProvider, Dictionary<string, object>>> unfilteredTestExtensions,
