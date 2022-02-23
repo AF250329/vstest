@@ -994,6 +994,10 @@ internal class TestRequestManager : ITestRequestManager
                 testRunEventsRegistrar?.RegisterTestRunEvents(_currentTestRunRequest);
                 ((Microsoft.VisualStudio.TestPlatform.Client.TestPlatform)this._testPlatform).VStestLoggerManager = this.VSTestLoggerManager;
 
+                _currentTestRunRequest.OnRunStart += (s, e) => this.VSTestLoggerManager.HandleTestRunStart(e);
+                _currentTestRunRequest.OnRunCompletion += (s, e) => this.VSTestLoggerManager.HandleTestRunComplete(e);
+                _currentTestRunRequest.TestRunMessage += (s, e) => this.VSTestLoggerManager.HandleTestRunMessage(e);
+
                 _testPlatformEventSource.ExecutionRequestStart();
 
                 _currentTestRunRequest.ExecuteAsync();
