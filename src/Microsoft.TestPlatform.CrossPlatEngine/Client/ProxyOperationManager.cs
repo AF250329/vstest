@@ -194,7 +194,7 @@ public class ProxyOperationManager
             ConnectionInfo = testHostConnectionInfo,
             RunnerProcessId = processId,
             LogFile = GetTimestampedLogFile(EqtTrace.LogFile),
-            TraceLevel = (int)EqtTrace.TraceLevel
+            TraceLevel = 1  // (int)EqtTrace.TraceLevel
         };
 
         // Subscribe to test host events.
