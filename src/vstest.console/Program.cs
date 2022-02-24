@@ -29,13 +29,14 @@ public static class Program
         return new Executor(ConsoleOutput.Instance).Execute(args);
     }
 
-    public static int RunExecutor(string[] args, ITestPlatformEventSource testPlatformEventSource, IObjectWriter objectWriter = null, ITestLoggerManager vsTestLogManager = null)
+    public static int RunExecutor(string[] args,  IOutput vsTestLogger, ITestPlatformEventSource testPlatformEventSource, IObjectWriter objectWriter = null, ITestLoggerManager vsTestLogManager = null)
     {
         DebuggerBreakpoint.AttachVisualStudioDebugger("VSTEST_RUNNER_DEBUG_ATTACHVS");
         DebuggerBreakpoint.WaitForDebugger("VSTEST_RUNNER_DEBUG");
         UiLanguageOverride.SetCultureSpecifiedByUser();
 
-        var executor = new Executor(ConsoleOutput.Instance, testPlatformEventSource);
+        // var executor = new Executor(ConsoleOutput.Instance, testPlatformEventSource);
+        var executor = new Executor(vsTestLogger, testPlatformEventSource);
 
         if (objectWriter != null)
         {
