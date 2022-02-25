@@ -1158,9 +1158,9 @@ if ($Force -or $Steps -contains "Publish") {
 }
 
 if ($Force -or $Steps -contains "PrepareAcceptanceTests") {
-    Publish-PatchedDotnet
-    Invoke-TestAssetsBuild
-    Publish-Tests
+#    Publish-PatchedDotnet
+#    Invoke-TestAssetsBuild
+#    Publish-Tests
 }
 
 Write-Log "Build complete. {$(Get-ElapsedTime($timer))}"
