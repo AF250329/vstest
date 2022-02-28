@@ -16,3 +16,8 @@ This is modified version of original VS Test platform that support callbacks on 
 Original README of this project (including links to documentation exist at \wiki on top)
 
 Enjoy ! :wink:
+
+
+## Notes
+
+UAP platform target removed from projects because it demands .NET Portable installation. This installation is not compatible with Windows Server 2019 Core windows because it demands very specific parts in Windows that is missing. So removing .NET Portable (UAP target) allow to compile/run this project on Windows Server 2019 Core
