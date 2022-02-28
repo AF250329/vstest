@@ -263,7 +263,7 @@ function Publish-Package
     Publish-PackageInternal $testHostProject $TPB_TargetFramework451 $testhostFullPackageDir
     Publish-PackageInternal $testHostProject $TPB_TargetFrameworkCore20 $testhostCore20PackageDir
     Publish-PackageInternal $testHostProject $TPB_TargetFrameworkCore10 $testhostCore10PackageDir
-    Publish-PackageInternal $testHostProject $TPB_TargetFrameworkCore20 $testhostUapPackageDir
+    # Publish-PackageInternal $testHostProject $TPB_TargetFrameworkCore20 $testhostUapPackageDir
     Publish-PackageWithRuntimeInternal $testHostProject $TPB_TargetFrameworkCore20 $TPB_X64_Runtime false $testhostCore20PackageTempX64Dir
     Publish-PackageWithRuntimeInternal $testHostProject $TPB_TargetFrameworkCore10 $TPB_X64_Runtime true $testhostCore10PackageTempX64Dir
 
@@ -398,7 +398,7 @@ function Publish-Package
     Copy-Item -Recurse $comComponentsDirectory\* $testhostCore20PackageDir -Force
     Copy-Item -Recurse $comComponentsDirectory\* $testhostCore10PackageDir -Force
     Copy-Item -Recurse $comComponentsDirectory\* $testhostFullPackageDir -Force
-    Copy-Item -Recurse $comComponentsDirectory\* $testhostUapPackageDir -Force
+    # Copy-Item -Recurse $comComponentsDirectory\* $testhostUapPackageDir -Force
     Copy-Item -Recurse $comComponentsDirectory\* $coreCLR20TestHostPackageDir -Force
 
     $microsoftInternalDiaInterop = Join-Path $env:TP_PACKAGES_DIR "Microsoft.Internal.Dia.Interop\$testPlatformMsDiaVersion\tools\net451"
