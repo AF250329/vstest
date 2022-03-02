@@ -31,65 +31,67 @@ public static class AssemblyHelper
     /// </summary>
     public static bool? DoesReferencesAssembly(string source, AssemblyName referenceAssembly)
     {
-        try
-        {
-            ValidateArg.NotNullOrEmpty(source, nameof(source));
-            ValidateArg.NotNull(referenceAssembly, nameof(referenceAssembly));
+        return null;
 
-            Debug.Assert(!string.IsNullOrEmpty(source));
+        //try
+        //{
+        //    ValidateArg.NotNullOrEmpty(source, nameof(source));
+        //    ValidateArg.NotNull(referenceAssembly, nameof(referenceAssembly));
 
-            var referenceAssemblyName = referenceAssembly.Name;
-            var referenceAssemblyPublicKeyToken = referenceAssembly.GetPublicKeyToken();
+        //    Debug.Assert(!string.IsNullOrEmpty(source));
 
-            var setupInfo = new AppDomainSetup();
-            setupInfo.ApplicationBase = Path.GetDirectoryName(Path.GetFullPath(source));
+        //    var referenceAssemblyName = referenceAssembly.Name;
+        //    var referenceAssemblyPublicKeyToken = referenceAssembly.GetPublicKeyToken();
 
-            // In Dev10 by devenv uses its own app domain host which has default optimization to share everything.
-            // Set LoaderOptimization to MultiDomainHost which means:
-            //   Indicates that the application will probably host unique code in multiple domains,
-            //   and the loader must share resources across application domains only for globally available (strong-named)
-            //   assemblies that have been added to the global assembly cache.
-            setupInfo.LoaderOptimization = LoaderOptimization.MultiDomainHost;
+        //    var setupInfo = new AppDomainSetup();
+        //    setupInfo.ApplicationBase = Path.GetDirectoryName(Path.GetFullPath(source));
 
-            AppDomain ad = null;
-            try
-            {
-                ad = AppDomain.CreateDomain("Dependency finder domain", null, setupInfo);
+        //    // In Dev10 by devenv uses its own app domain host which has default optimization to share everything.
+        //    // Set LoaderOptimization to MultiDomainHost which means:
+        //    //   Indicates that the application will probably host unique code in multiple domains,
+        //    //   and the loader must share resources across application domains only for globally available (strong-named)
+        //    //   assemblies that have been added to the global assembly cache.
+        //    setupInfo.LoaderOptimization = LoaderOptimization.MultiDomainHost;
 
-                var assemblyLoadWorker = typeof(AssemblyLoadWorker);
-                AssemblyLoadWorker worker = null;
-                if (assemblyLoadWorker.Assembly.GlobalAssemblyCache)
-                {
-                    worker = (AssemblyLoadWorker)ad.CreateInstanceAndUnwrap(
-                        assemblyLoadWorker.Assembly.FullName,
-                        assemblyLoadWorker.FullName,
-                        false, BindingFlags.Default, null,
-                        null, null, null);
-                }
-                else
-                {
-                    // This has to be LoadFrom, otherwise we will have to use AssemblyResolver to find self.
-                    worker = (AssemblyLoadWorker)ad.CreateInstanceFromAndUnwrap(
-                        assemblyLoadWorker.Assembly.Location,
-                        assemblyLoadWorker.FullName,
-                        false, BindingFlags.Default, null,
-                        null, null, null);
-                }
+        //    AppDomain ad = null;
+        //    try
+        //    {
+        //        ad = AppDomain.CreateDomain("Dependency finder domain", null, setupInfo);
 
-                return worker.CheckAssemblyReference(source, referenceAssemblyName, referenceAssemblyPublicKeyToken);
-            }
-            finally
-            {
-                if (ad != null)
-                {
-                    AppDomain.Unload(ad);
-                }
-            }
-        }
-        catch
-        {
-            return null; // Return null if something goes wrong.
-        }
+        //        var assemblyLoadWorker = typeof(AssemblyLoadWorker);
+        //        AssemblyLoadWorker worker = null;
+        //        if (assemblyLoadWorker.Assembly.GlobalAssemblyCache)
+        //        {
+        //            worker = (AssemblyLoadWorker)ad.CreateInstanceAndUnwrap(
+        //                assemblyLoadWorker.Assembly.FullName,
+        //                assemblyLoadWorker.FullName,
+        //                false, BindingFlags.Default, null,
+        //                null, null, null);
+        //        }
+        //        else
+        //        {
+        //            // This has to be LoadFrom, otherwise we will have to use AssemblyResolver to find self.
+        //            worker = (AssemblyLoadWorker)ad.CreateInstanceFromAndUnwrap(
+        //                assemblyLoadWorker.Assembly.Location,
+        //                assemblyLoadWorker.FullName,
+        //                false, BindingFlags.Default, null,
+        //                null, null, null);
+        //        }
+
+        //        return worker.CheckAssemblyReference(source, referenceAssemblyName, referenceAssemblyPublicKeyToken);
+        //    }
+        //    finally
+        //    {
+        //        if (ad != null)
+        //        {
+        //            AppDomain.Unload(ad);
+        //        }
+        //    }
+        //}
+        //catch
+        //{
+        //    return null; // Return null if something goes wrong.
+        //}
     }
 
     /// <summary>
