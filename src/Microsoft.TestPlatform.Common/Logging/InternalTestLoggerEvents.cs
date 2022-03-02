@@ -401,11 +401,11 @@ using System.Configuration;
     {
         bool enableBounds;
         string enableBoundsOnEventQueueIsDefined =
-#if NETFRAMEWORK
-            ConfigurationManager.AppSettings[TestPlatformDefaults.EnableBoundsOnLoggerEventQueue];
-#else
+//#if NETFRAMEWORK
+//            ConfigurationManager.AppSettings[TestPlatformDefaults.EnableBoundsOnLoggerEventQueue];
+//#else
             null;
-#endif
+//#endif
         if (string.IsNullOrEmpty(enableBoundsOnEventQueueIsDefined))
         {
             enableBounds = TestPlatformDefaults.DefaultEnableBoundsOnLoggerEventQueue;
@@ -448,11 +448,11 @@ using System.Configuration;
     {
         int value;
         string appSettingValue =
-#if NETFRAMEWORK
-            ConfigurationManager.AppSettings[appSettingKey];
-#else
+//#if NETFRAMEWORK
+//            ConfigurationManager.AppSettings[appSettingKey];
+//#else
             null;
-#endif
+//#endif
         if (string.IsNullOrEmpty(appSettingValue))
         {
             value = defaultValue;
