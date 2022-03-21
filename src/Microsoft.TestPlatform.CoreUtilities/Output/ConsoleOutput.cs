@@ -19,6 +19,8 @@ public class ConsoleOutput : IOutput
     private readonly TextWriter _standardOutput;
     private readonly TextWriter _standardError;
 
+    public EventHandler<string> OnWrite;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ConsoleOutput"/> class.
     /// </summary>
@@ -70,6 +72,8 @@ public class ConsoleOutput : IOutput
     /// <param name="level">Level of the message.</param>
     public void Write(string message, OutputLevel level)
     {
+        OnWrite?.Invoke(this, message);
+
         switch (level)
         {
             case OutputLevel.Information:

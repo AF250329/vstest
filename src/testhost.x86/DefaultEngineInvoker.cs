@@ -75,6 +75,8 @@ internal class DefaultEngineInvoker :
         _processHelper = processHelper;
         _requestHandler = requestHandler;
         _dataCollectionTestCaseEventSender = dataCollectionTestCaseEventSender;
+
+        Console.WriteLine($"[DefaultEngineInvoker] ctor");
     }
 
     public void Invoke(IDictionary<string, string> argsDictionary)
@@ -89,6 +91,8 @@ internal class DefaultEngineInvoker :
                 .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
             EqtTrace.Verbose($"Version: { version }");
         }
+
+        Console.WriteLine($"[DefaultEngineInvoker] Testhost process started with args: {string.Join(",", argsDictionary)}");
 
         if (EqtTrace.IsInfoEnabled)
         {

@@ -5,6 +5,7 @@ namespace Microsoft.VisualStudio.TestPlatform.TestHost;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 using CoreUtilities.Helpers;
 using CoreUtilities.Tracing;
@@ -30,7 +31,10 @@ public class Program
     {
         try
         {
+            Console.WriteLine("testhost.xxx.exe starting");
+
             TestPlatformEventSource.Instance.TestHostStart();
+
             Run(args);
         }
         catch (Exception ex)
@@ -50,11 +54,13 @@ public class Program
     // In UWP(App models) Run will act as entry point from Application end, so making this method public
     public static void Run(string[] args)
     {
-        DebuggerBreakpoint.AttachVisualStudioDebugger("VSTEST_HOST_DEBUG_ATTACHVS");
-        DebuggerBreakpoint.WaitForNativeDebugger("VSTEST_HOST_NATIVE_DEBUG");
-        DebuggerBreakpoint.WaitForDebugger("VSTEST_HOST_DEBUG");
+        // DebuggerBreakpoint.AttachVisualStudioDebugger("VSTEST_HOST_DEBUG_ATTACHVS");
+        // DebuggerBreakpoint.WaitForNativeDebugger("VSTEST_HOST_NATIVE_DEBUG");
+        // DebuggerBreakpoint.WaitForDebugger("VSTEST_HOST_DEBUG");
         UiLanguageOverride.SetCultureSpecifiedByUser();
         var argsDictionary = CommandLineArgumentsHelper.GetArgumentsDictionary(args);
+
+        Console.WriteLine($"Received: {argsDictionary.Count} arguments");
 
         // Invoke the engine with arguments
         GetEngineInvoker(argsDictionary).Invoke(argsDictionary);

@@ -272,6 +272,8 @@ public class TestRequestHandler : ITestRequestHandler
 
         EqtTrace.Info("TestRequestHandler.OnMessageReceived: received message: {0}", message);
 
+        Console.WriteLine($"TestRequestHandler.OnMessageReceived: received message: {message}");
+
         switch (message.MessageType)
         {
             case MessageType.VersionCheck:
