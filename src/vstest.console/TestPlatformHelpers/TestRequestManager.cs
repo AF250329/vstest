@@ -202,7 +202,11 @@ internal class TestRequestManager : ITestRequestManager
             runsettings = updatedRunsettings;
         }
 
+#if !NETSTANDARD1_3
+        System.Diagnostics.Trace.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers.TestRequestManager::DiscoverTests] Final settings: {runsettings}");
+#else
         System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CommandLine.TestPlatformHelpers.TestRequestManager::DiscoverTests] Final settings: {runsettings}");
+#endif
 
         var runConfiguration = XmlRunSettingsUtilities.GetRunConfigurationNode(runsettings);
         var batchSize = runConfiguration.BatchSize;
@@ -606,7 +610,7 @@ internal class TestRequestManager : ITestRequestManager
         _currentAttachmentsProcessingCancellationTokenSource?.Cancel();
     }
 
-    #endregion
+#endregion
 
     public void Dispose()
     {

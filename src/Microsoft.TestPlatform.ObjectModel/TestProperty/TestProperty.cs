@@ -225,10 +225,11 @@ public class TestProperty : IEquatable<TestProperty>
 
             if (type == null)
             {
-                System.Diagnostics.Debug.Fail("The test property type " + typeName + " of property " + Id + "is not supported.");
+                System.Diagnostics.Trace.WriteLine("The test property type " + typeName + " of property " + Id + "is not supported.");
 #else
-            System.Diagnostics.Debug.WriteLine("The test property type " + typeName + " of property " + Id + "is not supported.");
+                System.Diagnostics.Debug.WriteLine("The test property type " + typeName + " of property " + Id + "is not supported.");
 #endif
+
 #if FullCLR
             }
 #endif

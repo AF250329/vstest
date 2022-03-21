@@ -49,7 +49,13 @@ internal class AssemblyResolver : IDisposable
     public AssemblyResolver(IEnumerable<string> directories)
     {
         EqtTrace.Info($"AssemblyResolver.ctor: Creating AssemblyResolver with searchDirectories {string.Join(",", directories)}");
+
+#if !NETSTANDARD1_3
+        System.Diagnostics.Trace.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.Utilities::AssemblyResolver] Creating AssemblyResolver with searchDirectories {string.Join(",", directories)}");
+#else
         System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.Utilities::AssemblyResolver] Creating AssemblyResolver with searchDirectories {string.Join(",", directories)}");
+#endif
+
 
         _resolvedAssemblies = new Dictionary<string, Assembly>();
 
@@ -69,7 +75,11 @@ internal class AssemblyResolver : IDisposable
     internal void AddSearchDirectories(IEnumerable<string> directories)
     {
         EqtTrace.Info($"AssemblyResolver.AddSearchDirectories: Adding more searchDirectories {string.Join(",", directories)}");
+#if !NETSTANDARD1_3
+        System.Diagnostics.Trace.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.Utilities::AssemblyResolver] Adding more searchDirectories {string.Join(",", directories)}");
+#else
         System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.Utilities::AssemblyResolver] Adding more searchDirectories {string.Join(",", directories)}");
+#endif
 
         foreach (var directory in directories)
         {

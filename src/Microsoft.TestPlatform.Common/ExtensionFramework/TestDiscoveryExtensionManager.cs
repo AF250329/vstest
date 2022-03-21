@@ -128,7 +128,11 @@ internal class TestDiscoveryExtensionManager
             {
                 // discoverer.value below is what initializes the extension types and hence is not under a EqtTrace.IsVerboseEnabled check.
                 EqtTrace.Verbose("TestDiscoveryManager: LoadExtensions: Created discoverer {0}", discoverer.Value);
+#if !NETSTANDARD1_3
+                System.Diagnostics.Trace.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.TestDiscoveryExtensionManager::LoadAndInitializeAllExtensions] Created discoverer {discoverer.Value}");
+#else
                 System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework.TestDiscoveryExtensionManager::LoadAndInitializeAllExtensions] Created discoverer {discoverer.Value}");
+#endif
             }
         }
         catch (Exception ex)
@@ -150,7 +154,7 @@ internal class TestDiscoveryExtensionManager
         s_testDiscoveryExtensionManager = null;
     }
 
-    #endregion
+#endregion
 }
 
 /// <summary>

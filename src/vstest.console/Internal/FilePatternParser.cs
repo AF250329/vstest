@@ -75,7 +75,12 @@ public class FilePatternParser
         // Split the given wild card into search directory and pattern to be searched.
         var splitPattern = SplitFilePatternOnWildCard(filePattern);
         EqtTrace.Info($"FilePatternParser: Matching file pattern '{splitPattern.Item2}' within directory '{splitPattern.Item1}'");
+
+#if !NETSTANDARD1_3
+        System.Diagnostics.Trace.WriteLine(string.Format($"FilePatternParser: Matching file pattern '{splitPattern.Item2}' within directory '{splitPattern.Item1}'"));
+#else
         System.Diagnostics.Debug.WriteLine(string.Format($"FilePatternParser: Matching file pattern '{splitPattern.Item2}' within directory '{splitPattern.Item1}'"));
+#endif
 
         _matcher.AddInclude(splitPattern.Item2);
 

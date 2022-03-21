@@ -213,7 +213,11 @@ internal class DiscovererEnumerator
                 "DiscovererEnumerator.DiscoverTestsFromSingleDiscoverer: Loading tests for {0}",
                 discoverer.Value.GetType().FullName);
 
+#if !NETSTANDARD1_3
+            System.Diagnostics.Trace.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Discovery::DiscoverTestsFromSingleDiscoverer] Loading tests for {discoverer.Value.GetType().FullName}");
+#else
             System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CrossPlatEngine.Discovery::DiscoverTestsFromSingleDiscoverer] Loading tests for {discoverer.Value.GetType().FullName}");
+#endif
 
             if (discoverer.Metadata.DefaultExecutorUri == null)
             {

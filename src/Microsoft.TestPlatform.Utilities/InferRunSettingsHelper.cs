@@ -177,7 +177,12 @@ public class InferRunSettingsHelper
         }
 
         EqtTrace.Verbose("Using effective platform:{0} effective framework:{1}", architecture, framework);
+
+#if !NETSTANDARD1_3
+        System.Diagnostics.Trace.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Utilities::InferRunSettingsHelper] Using effective platform: {architecture} effective framework:{framework}");
+#else
         System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Utilities::InferRunSettingsHelper] Using effective platform: {architecture} effective framework:{framework}");
+#endif
 
 
         // check if platform is compatible with current system architecture.

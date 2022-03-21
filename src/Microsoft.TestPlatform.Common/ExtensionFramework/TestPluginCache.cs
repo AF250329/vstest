@@ -152,7 +152,12 @@ public class TestPluginCache
         try
         {
             EqtTrace.Verbose("TestPluginCache.DiscoverTestExtensions: Discovering the extensions using extension path.");
+
+#if !NETSTANDARD1_3
+            System.Diagnostics.Trace.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework::TestPluginCache] Discovering the extensions using extension path.");
+#else
             System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework::TestPluginCache] Discovering the extensions using extension path.");
+#endif
 
 
             // Combine all the possible extensions - both default and additional.
@@ -160,12 +165,20 @@ public class TestPluginCache
 
             EqtTrace.Verbose("TestPluginCache.DiscoverTestExtensions: Discovering the extensions using allExtensionPaths: {0}", string.Join(Environment.NewLine, allExtensionPaths));
 
+#if !NETSTANDARD1_3
+            System.Diagnostics.Trace.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework::TestPluginCache] Found extensions list: {string.Join(Environment.NewLine, allExtensionPaths)}");
+#else
             System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework::TestPluginCache] Found extensions list: {string.Join(Environment.NewLine, allExtensionPaths)}");
+#endif
 
             // Discover the test extensions from candidate assemblies.
             pluginInfos = GetTestExtensions<TPluginInfo, TExtension>(allExtensionPaths);
 
+#if !NETSTANDARD1_3
+            System.Diagnostics.Trace.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework::TestPluginCache] Detected: {pluginInfos.Count} plugins");
+#else
             System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework::TestPluginCache] Detected: {pluginInfos.Count} plugins");
+#endif
 
             if (TestExtensions == null)
             {
@@ -291,9 +304,9 @@ public class TestPluginCache
         _assemblyResolver.AddSearchDirectories(directories);
     }
 
-    #endregion
+#endregion
 
-    #region Utility methods
+#region Utility methods
 
     internal IEnumerable<string> DefaultExtensionPaths
     {
@@ -490,7 +503,11 @@ public class TestPluginCache
 
         foreach(var item in resolutionPaths)
         {
+#if !NETSTANDARD1_3
+            System.Diagnostics.Trace.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework::TestPluginCache] Going to search for assembly at folder: {item}");
+#else
             System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.Common.ExtensionFramework::TestPluginCache] Going to search for assembly at folder: {item}");
+#endif
         }
 
         // Add assembly resolver which can resolve the extensions from the specified directory.
@@ -571,5 +588,5 @@ public class TestPluginCache
         //}
     }
 
-    #endregion
+#endregion
 }

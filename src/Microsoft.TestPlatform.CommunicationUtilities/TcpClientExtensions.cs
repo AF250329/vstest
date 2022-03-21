@@ -45,14 +45,22 @@ internal static class TcpClientExtensions
         while (channel != null && !cancellationToken.IsCancellationRequested)
         {
             EqtTrace.Verbose("TcpClientExtensions.MessageLoopAsync: Polling on remoteEndPoint: {0} localEndPoint: {1}", remoteEndPoint, localEndPoint);
+#if !NETSTANDARD1_3
+            System.Diagnostics.Trace.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.TcpClientExtensions::MessageLoopAsync] Polling on remoteEndPoint: {remoteEndPoint} localEndPoint: {localEndPoint}");
+#else
             System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.TcpClientExtensions::MessageLoopAsync] Polling on remoteEndPoint: {remoteEndPoint} localEndPoint: {localEndPoint}");
+#endif
 
             try
             {
                 if (client.Client.Poll(Streamreadtimeout, SelectMode.SelectRead))
                 {
                     EqtTrace.Verbose("TcpClientExtensions.MessageLoopAsync: NotifyDataAvailable remoteEndPoint: {0} localEndPoint: {1}", remoteEndPoint, localEndPoint);
+#if !NETSTANDARD1_3
+                    System.Diagnostics.Trace.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.TcpClientExtensions::MessageLoopAsync] NotifyDataAvailable");
+#else
                     System.Diagnostics.Debug.WriteLine($"[Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.TcpClientExtensions::MessageLoopAsync] NotifyDataAvailable");
+#endif
 
                     channel.NotifyDataAvailable();
                 }
