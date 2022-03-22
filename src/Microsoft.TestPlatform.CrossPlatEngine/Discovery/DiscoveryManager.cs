@@ -95,6 +95,7 @@ public class DiscoveryManager : IDiscoveryManager
         {
             _discoveryCriteria = discoveryCriteria;
             EqtTrace.Info("TestDiscoveryManager.DoDiscovery: Background test discovery started.");
+
             _testDiscoveryEventsHandler = eventHandler;
             var verifiedExtensionSourceMap = new Dictionary<string, IEnumerable<string>>();
 

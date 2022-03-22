@@ -92,7 +92,7 @@ internal class DefaultEngineInvoker :
             EqtTrace.Verbose($"Version: { version }");
         }
 
-        Console.WriteLine($"[DefaultEngineInvoker] Testhost process started with args: {string.Join(",", argsDictionary)}");
+        Logger.Instance.WriteInfo($"[DefaultEngineInvoker] Testhost process started with args: {string.Join(", ", argsDictionary)}");
 
         if (EqtTrace.IsInfoEnabled)
         {
@@ -113,6 +113,8 @@ internal class DefaultEngineInvoker :
 
         _requestHandler.ConnectionInfo =
             GetConnectionInfo(argsDictionary);
+
+        Logger.Instance.WriteInfo($"[DefaultEngineInvoker] Endpoint is: {_requestHandler.ConnectionInfo.Endpoint}");
 
         // Initialize Communication with vstest.console
         _requestHandler.InitializeCommunication();
@@ -211,6 +213,8 @@ internal class DefaultEngineInvoker :
 
         EqtTrace.Info("DefaultEngineInvoker.SetParentProcessExitCallback: Monitoring parent process with id: '{0}'", parentProcessId);
 
+        Logger.Instance.WriteInfo($"[SetParentProcessExitCallback] Monitoring parent process with id: '{parentProcessId}'");
+
         if (parentProcessId == -1)
         {
             // In remote scenario we cannot monitor parent process, so we expect user to pass parentProcessId as -1
@@ -229,6 +233,9 @@ internal class DefaultEngineInvoker :
             {
                 EqtTrace.Info("DefaultEngineInvoker.SetParentProcessExitCallback: ParentProcess '{0}' Exited.",
                     parentProcessId);
+
+                Logger.Instance.WriteInfo($"[SetParentProcessExitCallback]  ParentProcess '{parentProcessId}' Exited.");
+
                 new PlatformEnvironment().Exit(1);
             });
     }

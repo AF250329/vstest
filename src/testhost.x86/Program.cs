@@ -31,7 +31,7 @@ public class Program
     {
         try
         {
-            Console.WriteLine("testhost.xxx.exe starting");
+            Logger.Instance.WriteInfo("[Main] testhost.xxx.exe starting");
 
             TestPlatformEventSource.Instance.TestHostStart();
 
@@ -60,7 +60,7 @@ public class Program
         UiLanguageOverride.SetCultureSpecifiedByUser();
         var argsDictionary = CommandLineArgumentsHelper.GetArgumentsDictionary(args);
 
-        Console.WriteLine($"Received: {argsDictionary.Count} arguments");
+        Logger.Instance.WriteInfo("[Run] Received: {argsDictionary.Count} arguments");
 
         // Invoke the engine with arguments
         GetEngineInvoker(argsDictionary).Invoke(argsDictionary);

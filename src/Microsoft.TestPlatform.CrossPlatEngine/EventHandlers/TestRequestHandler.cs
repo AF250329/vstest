@@ -99,13 +99,20 @@ public class TestRequestHandler : ITestRequestHandler
         {
             if (!connectedArgs.Connected)
             {
+                ConsoleOutput.Instance.WriteLine($"[InitializeCommunication] Connection failed", OutputLevel.Error);
+
                 _requestSenderConnected.Set();
                 throw connectedArgs.Fault;
             }
+
+            ConsoleOutput.Instance.WriteLine($"[InitializeCommunication] Connection successful", OutputLevel.Information);
+
             _channel = connectedArgs.Channel;
             _channel.MessageReceived += OnMessageReceived;
             _requestSenderConnected.Set();
         };
+
+        ConsoleOutput.Instance.WriteLine($"[InitializeCommunication] Trying to connect", OutputLevel.Information);
 
         _communicationEndPoint.Start(ConnectionInfo.Endpoint);
     }
@@ -272,7 +279,7 @@ public class TestRequestHandler : ITestRequestHandler
 
         EqtTrace.Info("TestRequestHandler.OnMessageReceived: received message: {0}", message);
 
-        Console.WriteLine($"TestRequestHandler.OnMessageReceived: received message: {message}");
+        ConsoleOutput.Instance.WriteLine($"[OnMessageReceived] received message: {message}", OutputLevel.Information);
 
         switch (message.MessageType)
         {
@@ -336,6 +343,9 @@ public class TestRequestHandler : ITestRequestHandler
                         Action job = () =>
                         {
                             EqtTrace.Info("TestRequestHandler.OnMessageReceived: Running job '{0}'.", message.MessageType);
+
+                            ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][DiscoveryInitialize] Running job '{message.MessageType}'", OutputLevel.Information);
+
                             _testHostManagerFactory.GetDiscoveryManager().Initialize(pathToAdditionalExtensions, discoveryEventsHandler);
                         };
                         _jobQueue.QueueJob(job, 0);
@@ -345,6 +355,10 @@ public class TestRequestHandler : ITestRequestHandler
                         _messageProcessingUnrecoverableError = ex;
                         EqtTrace.Error("Failed processing message {0}, aborting test run.", message.MessageType);
                         EqtTrace.Error(ex);
+
+                        ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][DiscoveryInitialize] Exception occurred: {ex.ToString()}", OutputLevel.Information);
+
+
                         goto case MessageType.AbortTestRun;
                     }
                     break;
@@ -359,12 +373,17 @@ public class TestRequestHandler : ITestRequestHandler
 
                         EqtTrace.Info("Discovery started.");
 
+                        ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][StartDiscovery] Started", OutputLevel.Information);
+
                         _testHostManagerFactoryReady.Wait();
                         var discoveryEventsHandler = new TestDiscoveryEventHandler(this);
                         var discoveryCriteria = _dataSerializer.DeserializePayload<DiscoveryCriteria>(message);
                         Action job = () =>
                         {
                             EqtTrace.Info("TestRequestHandler.OnMessageReceived: Running job '{0}'.", message.MessageType);
+
+                            ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][StartDiscovery] Running job '{message.MessageType}'", OutputLevel.Information);
+
                             _testHostManagerFactory.GetDiscoveryManager()
                                 .DiscoverTests(discoveryCriteria, discoveryEventsHandler);
                         };
@@ -376,6 +395,9 @@ public class TestRequestHandler : ITestRequestHandler
                         _messageProcessingUnrecoverableError = ex;
                         EqtTrace.Error("Failed processing message {0}, aborting test run.", message.MessageType);
                         EqtTrace.Error(ex);
+
+                        ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][StartDiscovery] Exception occurred! Error is: {ex.ToString()}", OutputLevel.Information);
+
                         goto case MessageType.AbortTestRun;
                     }
                     break;
@@ -385,12 +407,17 @@ public class TestRequestHandler : ITestRequestHandler
                 {
                     try
                     {
+                        ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][ExecutionInitialize] Started", OutputLevel.Information);
+
                         _testHostManagerFactoryReady.Wait();
                         var testInitializeEventsHandler = new TestInitializeEventsHandler(this);
                         var pathToAdditionalExtensions = _dataSerializer.DeserializePayload<IEnumerable<string>>(message);
                         Action job = () =>
                         {
                             EqtTrace.Info("TestRequestHandler.OnMessageReceived: Running job '{0}'.", message.MessageType);
+
+                            ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][ExecutionInitialize] Running job '{message.MessageType}'", OutputLevel.Information);
+
                             _testHostManagerFactory.GetExecutionManager().Initialize(pathToAdditionalExtensions, testInitializeEventsHandler);
                         };
                         _jobQueue.QueueJob(job, 0);
@@ -400,6 +427,9 @@ public class TestRequestHandler : ITestRequestHandler
                         _messageProcessingUnrecoverableError = ex;
                         EqtTrace.Error("Failed processing message {0}, aborting test run.", message.MessageType);
                         EqtTrace.Error(ex);
+
+                        ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][ExecutionInitialize] Exception occurred ! Error is: {ex.ToString()}", OutputLevel.Information);
+
                         goto case MessageType.AbortTestRun;
                     }
                     break;
@@ -407,6 +437,7 @@ public class TestRequestHandler : ITestRequestHandler
 
             case MessageType.StartTestExecutionWithSources:
                 {
+                    ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][StartTestExecutionWithSources] Started", OutputLevel.Information);
                     try
                     {
                         var testRunEventsHandler = new TestRunEventsHandler(this);
@@ -431,6 +462,9 @@ public class TestRequestHandler : ITestRequestHandler
                         _messageProcessingUnrecoverableError = ex;
                         EqtTrace.Error("Failed processing message {0}, aborting test run.", message.MessageType);
                         EqtTrace.Error(ex);
+
+                        ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][StartTestExecutionWithSources] Exception occurred! Error is: {ex.ToString()}", OutputLevel.Information);
+
                         goto case MessageType.AbortTestRun;
                     }
                     break;
@@ -440,6 +474,8 @@ public class TestRequestHandler : ITestRequestHandler
                 { 
                     try
                     {
+                        ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][StartTestExecutionWithTests] Started", OutputLevel.Information);
+
                         EqtTrace.Info("Execution started.");
                         var testRunEventsHandler = new TestRunEventsHandler(this);
                         _testHostManagerFactoryReady.Wait();
@@ -465,28 +501,41 @@ public class TestRequestHandler : ITestRequestHandler
                         _messageProcessingUnrecoverableError = ex;
                         EqtTrace.Error("Failed processing message {0}, aborting test run.", message.MessageType);
                         EqtTrace.Error(ex);
+
+                        ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][StartTestExecutionWithTests] Exception occurred ! Error is: {ex.ToString()}", OutputLevel.Information);
+
                         goto case MessageType.AbortTestRun;
                     }
                     break;
                 }
 
             case MessageType.CancelTestRun:
+
+                ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][CancelTestRun] Started", OutputLevel.Information);
+
                 _jobQueue.Pause();
                 _testHostManagerFactoryReady.Wait();
                 _testHostManagerFactory.GetExecutionManager().Cancel(new TestRunEventsHandler(this));
                 break;
 
             case MessageType.LaunchAdapterProcessWithDebuggerAttachedCallback:
+                ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][LaunchAdapterProcessWithDebuggerAttachedCallback] Started", OutputLevel.Information);
+
                 _onLaunchAdapterProcessWithDebuggerAttachedAckReceived?.Invoke(message);
                 break;
 
             case MessageType.AttachDebuggerCallback:
+
+                ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][AttachDebuggerCallback] Started", OutputLevel.Information);
+
                 _onAttachDebuggerAckRecieved?.Invoke(message);
                 break;
 
             case MessageType.AbortTestRun:
                 try
                 {
+                    ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][AbortTestRun] Started", OutputLevel.Information);
+
                     _jobQueue.Pause();
                     _testHostManagerFactoryReady.Wait();
                     _testHostManagerFactory.GetExecutionManager().Abort(new TestRunEventsHandler(this));
@@ -495,6 +544,9 @@ public class TestRequestHandler : ITestRequestHandler
                 {
                     EqtTrace.Error("Failed processing message {0}. Stopping communication.", message.MessageType);
                     EqtTrace.Error(ex);
+
+                    ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][AbortTestRun] Exception occurred ! Error is: {ex.ToString()}", OutputLevel.Information);
+
                     _sessionCompleted.Set();
                     Close();
                 }
@@ -503,6 +555,9 @@ public class TestRequestHandler : ITestRequestHandler
             case MessageType.SessionEnd:
                 {
                     EqtTrace.Info("Session End message received from server. Closing the connection.");
+
+                    ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][SessionEnd] Started", OutputLevel.Information);
+
                     _sessionCompleted.Set();
                     Close();
                     break;
@@ -510,12 +565,16 @@ public class TestRequestHandler : ITestRequestHandler
 
             case MessageType.SessionAbort:
                 {
+                    ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][SessionAbort] Started", OutputLevel.Information);
+
                     // Don't do anything for now.
                     break;
                 }
 
             default:
                 {
+                    ConsoleOutput.Instance.WriteLine($"[OnMessageReceived][default] Started", OutputLevel.Information);
+
                     EqtTrace.Info("Invalid Message types");
                     break;
                 }
