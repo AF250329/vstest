@@ -31,7 +31,12 @@ public class Program
     {
         try
         {
-            Logger.Instance.WriteInfo("[Main] testhost.xxx.exe starting");
+            while (!Debugger.IsAttached)
+            {
+                System.Threading.Thread.Sleep(1000);
+            }
+
+            Debugger.Break();
 
             TestPlatformEventSource.Instance.TestHostStart();
 
@@ -61,6 +66,9 @@ public class Program
         var argsDictionary = CommandLineArgumentsHelper.GetArgumentsDictionary(args);
 
         Logger.Instance.WriteInfo("[Run] Received: {argsDictionary.Count} arguments");
+
+        argsDictionary.Add("--diag", "C:\\test.host.diagnostic.log");
+
 
         // Invoke the engine with arguments
         GetEngineInvoker(argsDictionary).Invoke(argsDictionary);
