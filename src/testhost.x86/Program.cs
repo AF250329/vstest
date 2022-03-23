@@ -31,12 +31,12 @@ public class Program
     {
         try
         {
-            while (!Debugger.IsAttached)
-            {
-                System.Threading.Thread.Sleep(1000);
-            }
-
-            Debugger.Break();
+            //while (!Debugger.IsAttached)
+            //{
+            //    System.Threading.Thread.Sleep(1000);
+            //}
+            //
+            //Debugger.Break();
 
             TestPlatformEventSource.Instance.TestHostStart();
 
