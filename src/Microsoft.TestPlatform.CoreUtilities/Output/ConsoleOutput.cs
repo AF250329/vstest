@@ -62,7 +62,12 @@ public class ConsoleOutput : IOutput
     public void WriteLine(string message, OutputLevel level)
     {
         Write(message, level);
-        Write(Environment.NewLine, level);
+
+        if (OnWrite != null)
+        {
+            // Don't need to log new-line in applicaiton log
+            Write(Environment.NewLine, level);
+        }
     }
 
     /// <summary>
@@ -72,22 +77,29 @@ public class ConsoleOutput : IOutput
     /// <param name="level">Level of the message.</param>
     public void Write(string message, OutputLevel level)
     {
-        OnWrite?.Invoke(this, message);
-
-        switch (level)
+        if (OnWrite != null)
         {
-            case OutputLevel.Information:
-            case OutputLevel.Warning:
-                _standardOutput.Write(message);
-                break;
+            // Logging to application log
+            OnWrite?.Invoke(this, message);
+        }
+        else
+        {
+            // Logging to physical console
+            switch (level)
+            {
+                case OutputLevel.Information:
+                case OutputLevel.Warning:
+                    _standardOutput.Write(message);
+                    break;
 
-            case OutputLevel.Error:
-                _standardError.Write(message);
-                break;
+                case OutputLevel.Error:
+                    _standardError.Write(message);
+                    break;
 
-            default:
-                _standardOutput.Write("ConsoleOutput.WriteLine: The output level is unrecognized: {0}", level);
-                break;
+                default:
+                    _standardOutput.Write("ConsoleOutput.WriteLine: The output level is unrecognized: {0}", level);
+                    break;
+            }
         }
     }
 }
