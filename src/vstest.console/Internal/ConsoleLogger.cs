@@ -18,7 +18,7 @@ using ObjectModel.Logging;
 using Utilities;
 
 using NuGet.Frameworks;
-
+ 
 using CommandLineResources = Resources.Resources;
 /// <summary>
 /// Logger for sending output to the console.
