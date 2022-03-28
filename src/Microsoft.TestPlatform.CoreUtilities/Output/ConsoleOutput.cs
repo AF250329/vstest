@@ -61,11 +61,14 @@ public class ConsoleOutput : IOutput
     /// <param name="level">Level of the message.</param>
     public void WriteLine(string message, OutputLevel level)
     {
-        Write(message, level);
-
         if (OnWrite != null)
         {
-            // Don't need to log new-line in applicaiton log
+            // Logging to application log
+            OnWrite?.Invoke(this, message);
+        }
+        else
+        {
+            Write(message, level);
             Write(Environment.NewLine, level);
         }
     }
