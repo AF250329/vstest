@@ -31,8 +31,8 @@ public static class Program
 
     public static int RunExecutor(string[] args,  IOutput vsTestLogger, ITestPlatformEventSource testPlatformEventSource, IObjectWriter objectWriter = null, ITestLoggerManager vsTestLogManager = null)
     {
-        DebuggerBreakpoint.AttachVisualStudioDebugger("VSTEST_RUNNER_DEBUG_ATTACHVS");
-        DebuggerBreakpoint.WaitForDebugger("VSTEST_RUNNER_DEBUG");
+        //DebuggerBreakpoint.AttachVisualStudioDebugger("VSTEST_RUNNER_DEBUG_ATTACHVS");
+        //DebuggerBreakpoint.WaitForDebugger("VSTEST_RUNNER_DEBUG");
         UiLanguageOverride.SetCultureSpecifiedByUser();
 
         // var executor = new Executor(ConsoleOutput.Instance, testPlatformEventSource);
