@@ -188,22 +188,25 @@ public partial class PlatformEqtTrace : IPlatformEqtTrace
             return false;
         }
 
-        switch (traceLevel)
-        {
-            case PlatformTraceLevel.Off:
-                return false;
-            case PlatformTraceLevel.Error:
-                return Source.Switch.ShouldTrace(TraceEventType.Error);
-            case PlatformTraceLevel.Warning:
-                return Source.Switch.ShouldTrace(TraceEventType.Warning);
-            case PlatformTraceLevel.Info:
-                return Source.Switch.ShouldTrace(TraceEventType.Information);
-            case PlatformTraceLevel.Verbose:
-                return Source.Switch.ShouldTrace(TraceEventType.Verbose);
-            default:
-                Debug.Fail("Should never get here!");
-                return false;
-        }
+        // Somehow this function fails with OutOfMemory exception....
+        return true;
+
+        //switch (traceLevel)
+        //{
+        //    case PlatformTraceLevel.Off:
+        //        return false;
+        //    case PlatformTraceLevel.Error:
+        //        return Source.Switch.ShouldTrace(TraceEventType.Error);
+        //    case PlatformTraceLevel.Warning:
+        //        return Source.Switch.ShouldTrace(TraceEventType.Warning);
+        //    case PlatformTraceLevel.Info:
+        //        return Source.Switch.ShouldTrace(TraceEventType.Information);
+        //    case PlatformTraceLevel.Verbose:
+        //        return Source.Switch.ShouldTrace(TraceEventType.Verbose);
+        //    default:
+        //        Debug.Fail("Should never get here!");
+        //        return false;
+        //}
     }
 
     /// <inheritdoc/>
