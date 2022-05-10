@@ -67,8 +67,14 @@ public class Program
 
         Logger.Instance.WriteInfo("[Run] Received: {argsDictionary.Count} arguments");
 
-        argsDictionary.Add("--diag", "C:\\test.host.diagnostic.log");
-
+        if (argsDictionary.Keys.Contains("--diag") == false)
+        {
+            argsDictionary.Add("--diag", "C:\\test.host.diagnostic.log");
+        }
+        else
+        {
+            // Already contains
+        }
 
         // Invoke the engine with arguments
         GetEngineInvoker(argsDictionary).Invoke(argsDictionary);
