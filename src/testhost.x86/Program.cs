@@ -40,7 +40,7 @@ public class Program
 
             Logger.Instance.WriteInfo($"[Main] Started\nBefore running VSTests\n---------------------------------------------------------------------------------" +
                                                     $"Id = {System.Diagnostics.Process.GetCurrentProcess().Id}\n" +
-                                                    $"HandleCount = {System.Diagnostics.Process.GetCurrentProcess().HandleCount}\n" +
+                                                    // $"HandleCount = {System.Diagnostics.Process.GetCurrentProcess().HandleCount}\n" +
                                                     $"MaxWorkingSet = {System.Diagnostics.Process.GetCurrentProcess().MaxWorkingSet} bytes\n" +
                                                     $"MinWorkingSet = {System.Diagnostics.Process.GetCurrentProcess().MinWorkingSet} bytes\n" +
                                                     $"Modules count = {System.Diagnostics.Process.GetCurrentProcess().Modules.Count}\n" +
