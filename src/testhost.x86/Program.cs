@@ -38,6 +38,21 @@ public class Program
             //
             //Debugger.Break();
 
+            Logger.Instance.WriteInfo($"[Main] Started\nBefore running VSTests\n---------------------------------------------------------------------------------" +
+                                                    $"Id = {System.Diagnostics.Process.GetCurrentProcess().Id}\n" +
+                                                    $"HandleCount = {System.Diagnostics.Process.GetCurrentProcess().HandleCount}\n" +
+                                                    $"MaxWorkingSet = {System.Diagnostics.Process.GetCurrentProcess().MaxWorkingSet} bytes\n" +
+                                                    $"MinWorkingSet = {System.Diagnostics.Process.GetCurrentProcess().MinWorkingSet} bytes\n" +
+                                                    $"Modules count = {System.Diagnostics.Process.GetCurrentProcess().Modules.Count}\n" +
+                                                    $"NonpagedSystemMemorySize64 = {System.Diagnostics.Process.GetCurrentProcess().NonpagedSystemMemorySize64} bytes\n" +
+                                                    $"PagedMemorySize64 = {System.Diagnostics.Process.GetCurrentProcess().PagedMemorySize64} bytes\n" +
+                                                    $"PeakPagedMemorySize64 = {System.Diagnostics.Process.GetCurrentProcess().PeakPagedMemorySize64} bytes\n" +
+                                                    $"PeakVirtualMemorySize64 = {System.Diagnostics.Process.GetCurrentProcess().PeakVirtualMemorySize64} bytes\n" +
+                                                    $"PeakWorkingSet64 = {System.Diagnostics.Process.GetCurrentProcess().PeakWorkingSet64} bytes\n" +
+                                                    $"PrivateMemorySize64 = {System.Diagnostics.Process.GetCurrentProcess().PrivateMemorySize64} bytes\n" +
+                                                    $"VirtualMemorySize64 = {System.Diagnostics.Process.GetCurrentProcess().VirtualMemorySize64} bytes\n" +
+                                                    $"WorkingSet64 = {System.Diagnostics.Process.GetCurrentProcess().WorkingSet64} bytes");
+
             TestPlatformEventSource.Instance.TestHostStart();
 
             Run(args);

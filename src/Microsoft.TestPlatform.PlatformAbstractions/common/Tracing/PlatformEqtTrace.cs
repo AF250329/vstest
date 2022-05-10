@@ -189,7 +189,7 @@ public partial class PlatformEqtTrace : IPlatformEqtTrace
         }
 
         // Somehow this function fails with OutOfMemory exception....
-        return true;
+        return false;
 
         //switch (traceLevel)
         //{
